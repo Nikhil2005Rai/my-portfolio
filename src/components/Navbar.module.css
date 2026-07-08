@@ -217,3 +217,65 @@
     display: block;
   }
 }
+
+/* Command Palette Trigger styles in Sidebar/Navbar */
+.searchShortcutBtn {
+  background: none;
+  border: none;
+  color: var(--fg-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 0;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: var(--transition-fast);
+  font-family: var(--font-sans);
+  width: 100%;
+}
+
+.searchShortcutBtn:hover {
+  color: #ffffff;
+}
+
+.searchBtnIcon {
+  margin-right: 8px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.sidebarKbd {
+  margin-left: auto;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 500;
+}
+
+.mobileControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobileSearchBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.15s ease;
+}
+
+.mobileSearchBtn:hover {
+  color: #ffffff;
+}
+

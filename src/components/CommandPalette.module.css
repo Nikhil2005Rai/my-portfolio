@@ -1,0 +1,247 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+  z-index: 1000;
+  animation: fadeIn 0.12s ease-out;
+}
+
+.modal {
+  background-color: #020202;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  max-width: 580px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  max-height: 420px;
+  margin: 0 16px;
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 12px;
+  background-color: #050505;
+}
+
+.searchIcon {
+  color: rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+}
+
+.input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-family: var(--font-sans);
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.cmdKey {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.resultsList {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 8px 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+.resultsList::-webkit-scrollbar {
+  display: none; /* Safari/Chrome */
+}
+
+.noResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  color: rgba(255, 255, 255, 0.3);
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.noResultsIcon {
+  opacity: 0.4;
+  margin-bottom: 4px;
+}
+
+.categoryGroup {
+  padding-bottom: 6px;
+}
+
+.categoryTitle {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 8px 20px 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  gap: 12px;
+  position: relative;
+  color: var(--fg-secondary);
+}
+
+.activeItem {
+  background-color: #ffffff;
+  color: #000000 !important;
+}
+
+.activeItem .itemDesc {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.activeItem .itemIcon {
+  color: #000000;
+}
+
+.itemIcon {
+  color: rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.1s ease;
+}
+
+.itemTextContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.itemLabel {
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemDesc {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+  transition: color 0.1s ease;
+}
+
+.enterHint {
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  opacity: 0.55;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: absolute;
+  right: 20px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: #050505;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+
+.helpText {
+  display: flex;
+  gap: 12px;
+}
+
+.kbd {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin-right: 2px;
+}
+
+.logoLabel {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Scroll target flash highlight */
+.highlightFlash {
+  animation: flashOutline 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes flashOutline {
+  0% {
+    outline: 2px solid #ffffff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    outline: 2px solid transparent;
+    box-shadow: none;
+  }
+}
+
+/* Mobile responsive optimizations */
+@media (max-width: 600px) {
+  .overlay {
+    padding-top: 5vh;
+  }
+  .modal {
+    max-height: 85vh;
+  }
+  .footer {
+    display: none;
+  }
+}

@@ -53,6 +53,17 @@ export default function Chatbot() {
     }
   }, [isOpen]);
 
+  // Listen for global chatbot toggle requests
+  useEffect(() => {
+    const handleToggle = (e) => {
+      if (e.detail && 'open' in e.detail) {
+        setIsOpen(e.detail.open);
+      }
+    };
+    window.addEventListener('chatbot-toggle', handleToggle);
+    return () => window.removeEventListener('chatbot-toggle', handleToggle);
+  }, []);
+
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
