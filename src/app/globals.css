@@ -218,3 +218,20 @@ a {
   width: 100%;
   margin: 32px 0;
 }
+
+/* Layout Wrappers */
+.content-wrapper {
+  margin-left: 290px;
+  min-height: 100vh;
+  flex-grow: 1;
+  transition: var(--transition-smooth);
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-left: 0 !important;
+    margin-top: 64px !important;
+    width: 100%;
+    overflow-x: hidden;
+  }
+}

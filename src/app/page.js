@@ -73,20 +73,6 @@ export default function Home() {
           </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* Responsive Wrapper Styles */}
-      <style jsx global>{`
-        .content-wrapper {
-          margin-left: 290px;
-          min-height: 100vh;
-        }
-        @media (max-width: 768px) {
-          .content-wrapper {
-            margin-left: 0;
-            margin-top: 64px;
-          }
-        }
-      `}</style>
     </div>
   );
 }
