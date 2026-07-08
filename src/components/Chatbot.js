@@ -151,13 +151,16 @@ export default function Chatbot() {
                             );
                           }
                           if (part.type === 'tool-navigateToTab' && part.state !== 'result') {
+                            console.log("NAV PART:", part);
+                            const tabArg = getTabArg(part);
                             return (
                               <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
-                                $ nav --tab {part.input?.tab}
+                                $ nav --tab {tabArg}
                               </div>
                             );
                           }
                           if (part.type === 'tool-downloadResume' && part.state !== 'result') {
+                            console.log("RESUME PART:", part);
                             return (
                               <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
                                 $ preview --resume
@@ -335,4 +338,31 @@ function parseLineContent(text) {
   }
 
   return parts;
+}
+
+function getTabArg(part) {
+  if (!part) return '';
+  if (part.input && typeof part.input === 'object' && 'tab' in part.input) {
+    return part.input.tab;
+  }
+  if (part.args && typeof part.args === 'object' && 'tab' in part.args) {
+    return part.args.tab;
+  }
+  if (part.input && typeof part.input === 'string') {
+    try {
+      const parsed = JSON.parse(part.input);
+      if (parsed && typeof parsed === 'object' && 'tab' in parsed) {
+        return parsed.tab;
+      }
+    } catch (e) {}
+  }
+  if (part.args && typeof part.args === 'string') {
+    try {
+      const parsed = JSON.parse(part.args);
+      if (parsed && typeof parsed === 'object' && 'tab' in parsed) {
+        return parsed.tab;
+      }
+    } catch (e) {}
+  }
+  return '';
 }
