@@ -145,7 +145,9 @@ export default function CommandPalette({ setActiveTab }) {
     } else if (item.id === 'action-resume') {
       window.open('/resume.pdf', '_blank', 'noopener,noreferrer');
     } else if (item.id === 'action-chat') {
-      window.dispatchEvent(new CustomEvent('chatbot-toggle', { detail: { open: true } }));
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('chatbot-toggle', { detail: { open: true } }));
+      }, 150);
     }
 
     setIsOpen(false);

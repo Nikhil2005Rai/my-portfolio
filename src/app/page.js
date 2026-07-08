@@ -29,6 +29,11 @@ export default function Home() {
     return () => window.removeEventListener('portfolio-navigate', handleNav);
   }, []);
 
+  // Scroll to top of the page when activeTab changes to prevent scrolling stickiness
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [activeTab]);
+
   // Render components dynamically based on section IDs
   const renderSection = (sectionId) => {
     switch (sectionId) {
