@@ -77,6 +77,14 @@ export default function Hero({ personalData, setActiveTab }) {
             <button onClick={() => setActiveTab('contact')} className="btn-secondary">
               Contact Me
             </button>
+            <a
+              href="/resume.pdf"
+              download="Nikhil_Rai_Resume.pdf"
+              className="btn-secondary"
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+            >
+              Resume ↓
+            </a>
           </motion.div>
 
           {/* Socials */}

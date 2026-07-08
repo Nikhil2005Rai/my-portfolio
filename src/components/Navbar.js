@@ -65,6 +65,14 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
             <span className={styles.linkText}>{item.label}</span>
           </button>
         ))}
+        <a
+          href="/resume.pdf"
+          download="Nikhil_Rai_Resume.pdf"
+          className={styles.navLink}
+          style={{ opacity: 0.8 }}
+        >
+          <span className={styles.linkText}>Resume ↓</span>
+        </a>
       </nav>
 
       {/* Sidebar Footer with Social Links */}
