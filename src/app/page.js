@@ -11,6 +11,7 @@ import Skills from '@/components/Skills';
 import Achievements from '@/components/Achievements';
 import Certifications from '@/components/Certifications';
 import Contact from '@/components/Contact';
+import Chatbot from '@/components/Chatbot';
 
 export default function Home() {
   const { personal, sections, about, skills, projects, achievements, certifications, contact } = portfolioData;
@@ -73,6 +74,8 @@ export default function Home() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      <Chatbot />
     </div>
   );
 }
