@@ -79,11 +79,12 @@ export default function Hero({ personalData, setActiveTab }) {
             </button>
             <a
               href="/resume.pdf"
-              download="Nikhil_Rai_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-secondary"
               style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             >
-              Resume ↓
+              Resume
             </a>
           </motion.div>
 

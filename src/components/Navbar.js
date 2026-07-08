@@ -67,11 +67,12 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
         ))}
         <a
           href="/resume.pdf"
-          download="Nikhil_Rai_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
           className={styles.navLink}
           style={{ opacity: 0.8 }}
         >
-          <span className={styles.linkText}>Resume ↓</span>
+          <span className={styles.linkText}>Resume</span>
         </a>
       </nav>
 
