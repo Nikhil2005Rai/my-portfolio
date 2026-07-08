@@ -1,0 +1,159 @@
+{
+  "personal": {
+    "name": "Nikhil Rai",
+    "title": "Software Engineer & Competitive Programmer",
+    "subtitle": "Building event-driven architectures, scalable backend systems, and modern web products.",
+    "bio": "CSE undergraduate with a 9.02 CGPA and a passion for building robust software applications. Active competitive programmer with a 2000+ rating on LeetCode (top 5% globally) and experience in REST APIs, event-driven architectures, and microservices.",
+    "email": "n2005rai@gmail.com",
+    "location": "New Delhi, India",
+    "socials": {
+      "github": "https://github.com/Nikhil2005Rai",
+      "linkedin": "https://linkedin.com/in/nikhil-rai-dev",
+      "codolio": "https://codolio.com/profile/NikhilRai",
+      "leetcode": "https://leetcode.com/u/NikhilRai2005/",
+      "codechef": "https://www.codechef.com/users/nikhilrai2005"
+    }
+  },
+  "sections": [
+    { "id": "hero", "enabled": true },
+    { "id": "about", "enabled": true },
+    { "id": "projects", "enabled": true },
+    { "id": "skills", "enabled": true },
+    { "id": "achievements", "enabled": true },
+    { "id": "certifications", "enabled": true },
+    { "id": "contact", "enabled": true }
+  ],
+  "about": {
+    "title": "About Me",
+    "education": {
+      "institution": "Noida Institute of Engineering and Technology",
+      "degree": "Bachelor of Technology in Computer Science and Engineering",
+      "period": "2023 - 2027",
+      "cgpa": "9.02 / 10.0"
+    },
+    "stats": [
+      { "label": "LeetCode Rating", "value": "2000+" },
+      { "label": "B.Tech CGPA", "value": "9.02" },
+      { "label": "Problems Solved", "value": "1000+" }
+    ]
+  },
+  "skills": {
+    "title": "Technical Skills",
+    "categories": [
+      {
+        "name": "Languages",
+        "items": ["C", "C++", "Java", "TypeScript", "JavaScript", "Python"]
+      },
+      {
+        "name": "Frontend",
+        "items": ["React", "Next.js", "Tailwind CSS", "Redux", "Zustand"]
+      },
+      {
+        "name": "Backend",
+        "items": ["Node.js", "Express.js", "MongoDB", "Prisma", "PostgreSQL", "Convex"]
+      },
+      {
+        "name": "DevOps & Cloud",
+        "items": ["Docker", "AWS", "Git", "GitHub", "Linux", "Postman", "Cloudflare Workers"]
+      },
+      {
+        "name": "Core CS",
+        "items": ["Data Structures", "Algorithms", "Operating Systems", "DBMS", "OOP", "System Design", "Microservices"]
+      }
+    ]
+  },
+  "projects": {
+    "title": "Projects",
+    "items": [
+      {
+        "title": "Nodebase",
+        "subtitle": "Event-Driven Workflow Automation Platform",
+        "description": "Designed a modular event-driven task orchestration system capable of executing custom multi-step workflows. Implemented microservices-style backend modules with isolated execution contexts and optimized PostgreSQL queries using indexing.",
+        "tech": ["Next.js", "TypeScript", "Prisma ORM", "PostgreSQL", "Sentry", "Docker"],
+        "github": "https://github.com/Nikhil2005Rai/Nodebase",
+        "demo": "",
+        "highlights": [
+          "Reduced manual workflow setup time by ~60%.",
+          "Improved system reliability and fault tolerance with isolated backend contexts.",
+          "Reduced p95 query latency by ~40% using database indexing.",
+          "Integrated Sentry for real-time error tracking, reducing Mean Time to Detection (MTTD) by ~50%."
+        ]
+      },
+      {
+        "title": "WorkNet",
+        "subtitle": "Real-Time Team Communication Platform",
+        "description": "Architected a role-based access control (RBAC) system managing permissions across 5+ channel types. Built real-time messaging and threaded discussions using Convex event-driven architecture.",
+        "tech": ["Next.js", "TypeScript", "Convex", "PostgreSQL", "REST APIs", "RBAC"],
+        "github": "https://github.com/Nikhil2005Rai/WorkNet",
+        "demo": "",
+        "highlights": [
+          "Achieved sub-100ms message delivery latency with Convex.",
+          "Designed 12+ RESTful backend APIs, cutting average database response time by ~35%.",
+          "Modeled normalized schemas to support multi-workspace, multi-channel communication at scale.",
+          "Reduced unauthorized access incidents to zero in test scenarios."
+        ]
+      }
+    ]
+  },
+  "achievements": {
+    "title": "Achievements",
+    "ratings": [
+      {
+        "platform": "LeetCode",
+        "value": "2000+",
+        "detail": "Top 5% globally",
+        "link": "https://leetcode.com/u/NikhilRai2005/"
+      },
+      {
+        "platform": "CodeChef",
+        "value": "3-Star",
+        "detail": "Competitive Programmer",
+        "link": "https://www.codechef.com/users/nikhilrai2005"
+      }
+    ],
+    "items": [
+      {
+        "title": "LeetCode 2000+ Rating",
+        "description": "Solved 1000+ algorithmic problems across platforms, ranking in the top 5% globally.",
+        "link": "https://leetcode.com/u/NikhilRai2005/"
+      },
+      {
+        "title": "CodeChef 3-Star",
+        "description": "Rated competitive programmer.",
+        "link": "https://www.codechef.com/users/nikhilrai2005"
+      },
+      {
+        "title": "IICPC CodeFest 2026",
+        "description": "Ranked 2362 among 13,000+ participants globally (Top ~18% in Global Prelims).",
+        "link": ""
+      },
+      {
+        "title": "NIET WebWeave Hackathon",
+        "description": "Won 2nd Prize for designing a modern responsive application under time constraints.",
+        "link": ""
+      }
+    ]
+  },
+  "certifications": {
+    "title": "Certifications",
+    "items": [
+      {
+        "name": "TechA Certified Java Developer",
+        "issuer": "TechA"
+      },
+      {
+        "name": "Java Fundamentals",
+        "issuer": "Oracle Academy"
+      },
+      {
+        "name": "Introduction to Cybersecurity",
+        "issuer": "Cisco"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "message": "I'm always open to discussing full-stack roles, competitive programming collaborations, or backend architecture design. Drop me a line!",
+    "web3forms_key": "YOUR_WEB3FORMS_ACCESS_KEY_HERE"
+  }
+}

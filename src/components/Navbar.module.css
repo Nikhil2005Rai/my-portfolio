@@ -1,0 +1,219 @@
+/* Desktop Sidebar Layout */
+.desktopSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 290px;
+  height: 100vh;
+  background-color: #000000;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 60px 32px;
+}
+
+.profileArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.avatarSymbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  letter-spacing: -0.05em;
+  font-family: var(--font-sans);
+}
+
+.profileName {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.profileRole {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fg-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.navLink {
+  background: none;
+  border: none;
+  color: var(--fg-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 0;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: var(--transition-fast);
+  font-family: var(--font-sans);
+  width: 100%;
+}
+
+.linkText {
+  display: inline-block;
+  transition: letter-spacing 0.15s ease;
+}
+
+.navLink:hover {
+  color: #ffffff;
+}
+
+.navLink:hover .linkText {
+  letter-spacing: 2px;
+}
+
+.navLink.active {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.sidebarFooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: var(--fg-secondary);
+  transition: var(--transition-smooth);
+}
+
+.socialLink:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.footerInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+}
+
+/* Mobile Header Layout */
+.mobileHeader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: #000000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0 24px;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.mobileLogo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.mobileBackdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 95;
+}
+
+.mobileDrawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 290px;
+  height: 100vh;
+  background-color: #000000;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 96;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .desktopSidebar {
+    display: none;
+  }
+  
+  .mobileHeader {
+    display: flex;
+  }
+  
+  .mobileBackdrop {
+    display: block;
+  }
+  
+  .mobileDrawer {
+    display: block;
+  }
+}

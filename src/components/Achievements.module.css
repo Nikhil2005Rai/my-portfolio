@@ -1,0 +1,135 @@
+.section {
+  padding: 80px 48px;
+  position: relative;
+  background-color: #000000;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.ratingsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.ratingCard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ratingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.platformName {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--fg-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ratingLinkIcon {
+  color: var(--fg-muted);
+  transition: var(--transition-fast);
+}
+
+.ratingCard:hover .ratingLinkIcon {
+  color: #ffffff;
+}
+
+.ratingValue {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.ratingDetail {
+  font-size: 0.82rem;
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  display: flex;
+  gap: 20px;
+  padding: 24px;
+  align-items: center;
+}
+
+.itemIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.itemIcon {
+  color: #ffffff;
+}
+
+.itemContent {
+  flex-grow: 1;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.itemTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.itemDate {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+.itemDesc {
+  color: var(--fg-secondary);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 968px) {
+  .section {
+    padding: 80px 24px;
+  }
+  
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
