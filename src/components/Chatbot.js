@@ -128,7 +128,7 @@ export default function Chatbot() {
               {/* Streaming Messages */}
               {messages.filter(msg => {
                 if (msg.parts && msg.parts.length > 0) {
-                  return msg.parts.some(part => part.type !== 'tool-result');
+                  return msg.parts.some(part => part.state !== 'result');
                 }
                 return true;
               }).map((msg, index) => (
@@ -150,21 +150,19 @@ export default function Chatbot() {
                               </span>
                             );
                           }
-                          if (part.type === 'tool-call') {
-                            if (part.toolName === 'navigateToTab') {
-                              return (
-                                <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
-                                  $ nav --tab {part.args?.tab}
-                                </div>
-                              );
-                            }
-                            if (part.toolName === 'downloadResume') {
-                              return (
-                                <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
-                                  $ preview --resume
-                                </div>
-                              );
-                            }
+                          if (part.type === 'tool-navigateToTab' && part.state !== 'result') {
+                            return (
+                              <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
+                                $ nav --tab {part.input?.tab}
+                              </div>
+                            );
+                          }
+                          if (part.type === 'tool-downloadResume' && part.state !== 'result') {
+                            return (
+                              <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
+                                $ preview --resume
+                              </div>
+                            );
                           }
                           return null;
                         })
