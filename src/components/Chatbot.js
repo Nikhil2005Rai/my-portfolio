@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send } from 'lucide-react';
+import { lastAssistantMessageIsCompleteWithToolCalls } from 'ai';
 import styles from './Chatbot.module.css';
 
 export default function Chatbot() {
@@ -16,6 +17,7 @@ export default function Chatbot() {
     api: '/api/chat',
     initialMessages: [],
     maxSteps: 5,
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
     onToolCall({ toolCall }) {
       if (toolCall.toolName === 'navigateToTab') {
         const targetTab = toolCall.args.tab;
