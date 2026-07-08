@@ -22,7 +22,7 @@ export default function Home() {
   const renderSection = (sectionId) => {
     switch (sectionId) {
       case 'hero':
-        return <Hero key="hero" personalData={personal} />;
+        return <Hero key="hero" personalData={personal} setActiveTab={setActiveTab} />;
       case 'about':
         return <About key="about" aboutData={about} personalData={personal} />;
       case 'projects':

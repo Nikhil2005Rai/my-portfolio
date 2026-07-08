@@ -19,7 +19,7 @@ const LeetcodeIcon = ({ size = 20, ...props }) => (
   </svg>
 );
 
-export default function Hero({ personalData }) {
+export default function Hero({ personalData, setActiveTab }) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -37,11 +37,6 @@ export default function Hero({ personalData }) {
       y: 0,
       transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
     },
-  };
-
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -76,10 +71,10 @@ export default function Hero({ personalData }) {
 
           {/* Actions */}
           <motion.div variants={itemVariants} className={styles.actions}>
-            <button onClick={() => scrollTo('projects')} className="btn-primary">
+            <button onClick={() => setActiveTab('projects')} className="btn-primary">
               View Work <ArrowRight size={18} />
             </button>
-            <button onClick={() => scrollTo('contact')} className="btn-secondary">
+            <button onClick={() => setActiveTab('contact')} className="btn-secondary">
               Contact Me
             </button>
           </motion.div>
