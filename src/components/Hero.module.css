@@ -126,14 +126,18 @@
 
 .visual {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .pre {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   line-height: 1.6;
   overflow-x: auto;
   color: #ffffff;
+  width: 100%;
+  max-width: 100%;
 }
 
 .key {
@@ -187,8 +191,12 @@
 }
 
 @media (max-width: 480px) {
+  .section {
+    padding: 60px 16px;
+  }
+
   .title {
-    font-size: 2rem;
+    font-size: 2.05rem;
   }
   
   .actions {
