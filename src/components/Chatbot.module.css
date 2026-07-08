@@ -307,3 +307,56 @@
     right: 20px;
   }
 }
+
+/* Chatbot markdown rendering styles */
+.paragraph {
+  margin: 8px 0;
+  line-height: 1.6;
+  color: var(--fg-secondary);
+  font-size: 0.85rem;
+}
+
+.boldText {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.bulletList {
+  margin: 8px 0 8px 16px;
+  padding: 0;
+  list-style-type: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bulletItem {
+  color: var(--fg-secondary);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  padding-left: 4px;
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 2px 4px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.linkButton:hover {
+  background-color: transparent;
+  color: #ffffff;
+}
+

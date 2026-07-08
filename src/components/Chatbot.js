@@ -8,13 +8,28 @@ import styles from './Chatbot.module.css';
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
 
-  const { messages, input, handleInputChange, handleSubmit, setInput, isLoading } = useChat({
+  const { messages, sendMessage, status } = useChat({
     api: '/api/chat',
     initialMessages: [],
+    maxSteps: 5,
+    onToolCall({ toolCall }) {
+      if (toolCall.toolName === 'navigateToTab') {
+        const targetTab = toolCall.args.tab;
+        window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { tab: targetTab } }));
+        return `Successfully navigated to the ${targetTab} section.`;
+      }
+      if (toolCall.toolName === 'downloadResume') {
+        window.open('/resume.pdf', '_blank', 'noopener,noreferrer');
+        return 'Successfully opened the resume preview in a new tab.';
+      }
+    }
   });
+
+  const isLoading = status === 'streaming' || status === 'submitting';
 
   // Scroll to bottom whenever messages list updates
   useEffect(() => {
@@ -30,6 +45,17 @@ export default function Chatbot() {
     }
   }, [isOpen]);
 
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+    sendMessage({ text: input });
+    setInput('');
+  };
+
   const suggestions = [
     "What is your tech stack?",
     "What is your LeetCode rating?",
@@ -38,7 +64,9 @@ export default function Chatbot() {
   ];
 
   const handleSuggestionClick = (suggestion) => {
-    setInput(suggestion);
+    if (isLoading) return;
+    sendMessage({ text: suggestion });
+    setInput('');
     if (chatInputRef.current) {
       chatInputRef.current.focus();
     }
@@ -98,9 +126,21 @@ export default function Chatbot() {
                   <span className={msg.role === 'user' ? styles.promptLabelUser : styles.promptLabel}>
                     {msg.role === 'user' ? 'user:~$ ' : 'nikhil_bot:~$ '}
                   </span>
-                  <p className={msg.role === 'user' ? styles.userText : styles.botText}>
-                    {msg.content}
-                  </p>
+                  <div className={msg.role === 'user' ? styles.userText : styles.botText}>
+                    {msg.parts && msg.parts.length > 0 
+                      ? msg.parts.map((part, pIdx) => {
+                          if (part.type === 'text') return <div key={pIdx}>{parseMarkdown(part.text)}</div>;
+                          if (part.type === 'reasoning') {
+                            return (
+                              <span key={pIdx} style={{ opacity: 0.5, fontStyle: 'italic', display: 'block', marginBottom: '8px' }}>
+                                [Thinking: {part.reasoning}]
+                              </span>
+                            );
+                          }
+                          return null;
+                        })
+                      : parseMarkdown(msg.content)}
+                  </div>
                 </div>
               ))}
               
@@ -135,7 +175,7 @@ export default function Chatbot() {
               <input
                 ref={chatInputRef}
                 type="text"
-                value={input}
+                value={input || ''}
                 onChange={handleInputChange}
                 placeholder="Ask me anything..."
                 className={styles.chatInput}
@@ -143,7 +183,7 @@ export default function Chatbot() {
               <button 
                 type="submit" 
                 className={styles.sendBtn}
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || !input?.trim()}
               >
                 <Send size={16} />
               </button>
@@ -153,4 +193,119 @@ export default function Chatbot() {
       </AnimatePresence>
     </div>
   );
+}
+
+// Lightweight markdown and URL parser for Chatbot messages
+function parseMarkdown(text) {
+  if (!text) return '';
+
+  const lines = text.split('\n');
+  const renderedElements = [];
+  let currentListItems = [];
+
+  const flushList = (key) => {
+    if (currentListItems.length > 0) {
+      renderedElements.push(
+        <ul key={`list-${key}`} className={styles.bulletList}>
+          {currentListItems}
+        </ul>
+      );
+      currentListItems = [];
+    }
+  };
+
+  lines.forEach((line, lineIndex) => {
+    const trimmed = line.trim();
+    const isBullet = trimmed.startsWith('* ') || trimmed.startsWith('- ');
+
+    if (isBullet) {
+      const cleanLine = trimmed.slice(2);
+      const parts = parseLineContent(cleanLine);
+      currentListItems.push(
+        <li key={`li-${lineIndex}`} className={styles.bulletItem}>
+          {parts}
+        </li>
+      );
+    } else {
+      flushList(lineIndex);
+      if (trimmed.length > 0) {
+        const parts = parseLineContent(line);
+        renderedElements.push(
+          <p key={`p-${lineIndex}`} className={styles.paragraph}>
+            {parts}
+          </p>
+        );
+      }
+    }
+  });
+
+  flushList('end');
+  return renderedElements;
+}
+
+function parseLineContent(text) {
+  const parts = [];
+  let currentIndex = 0;
+
+  // Regex matches:
+  // 1: Bold: **bold text**
+  // 3: Markdown Link: [label](url)
+  // 6: Bare URL: https://...
+  const elementRegex = /(\*\*([^*]+)\*\*)|(\[([^\]]+)\]\(([^)]+)\))|((https?:\/\/[^\s,)]+))/g;
+  let match;
+
+  while ((match = elementRegex.exec(text)) !== null) {
+    const matchIndex = match.index;
+
+    // Add preceding plain text if any
+    if (matchIndex > currentIndex) {
+      parts.push(text.slice(currentIndex, matchIndex));
+    }
+
+    if (match[1]) {
+      // Bold text
+      parts.push(<strong key={matchIndex} className={styles.boldText}>{match[2]}</strong>);
+    } else if (match[3]) {
+      // Markdown link
+      parts.push(
+        <a
+          key={matchIndex}
+          href={match[5]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.linkButton}
+          title={match[5]}
+        >
+          {match[4]}
+        </a>
+      );
+    } else if (match[6]) {
+      // Bare URL
+      const url = match[6];
+      let displayUrl = url.replace(/https?:\/\/(www\.)?/, '');
+      if (displayUrl.length > 30) {
+        displayUrl = displayUrl.slice(0, 27) + '...';
+      }
+      parts.push(
+        <a
+          key={matchIndex}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.linkButton}
+          title={url}
+        >
+          {displayUrl}
+        </a>
+      );
+    }
+
+    currentIndex = elementRegex.lastIndex;
+  }
+
+  if (currentIndex < text.length) {
+    parts.push(text.slice(currentIndex));
+  }
+
+  return parts;
 }

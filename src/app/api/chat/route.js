@@ -1,6 +1,11 @@
-import { google } from '@ai-sdk/google';
-import { streamText } from 'ai';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { streamText, convertToModelMessages } from 'ai';
+import { z } from 'zod';
 import portfolioData from '@/data/portfolio.json';
+
+const googleProvider = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY,
+});
 
 export async function POST(req) {
   try {
@@ -18,20 +23,35 @@ export async function POST(req) {
     const contextText = JSON.stringify(portfolioData, null, 2);
 
     const result = streamText({
-      model: google('gemini-1.5-flash'),
-      messages,
-      system: `You are the AI representative of Nikhil Rai, a Software Engineer. Your job is to answer questions on his behalf using the provided portfolio data.
-Keep your answers brief, friendly, and professional (matching his developer personality).
-If someone asks a question not related to Nikhil's profile or experience (e.g. general math, science, politics), politely decline and redirect them back to asking about Nikhil's portfolio.
-Never make up details or hallucinate facts that are not present in the database.
-If asked about salary or hiring terms, guide them to use the Contact tab or download his Resume.
+      model: googleProvider('gemini-2.5-flash'),
+      messages: await convertToModelMessages(messages),
+      system: `You are the AI representative of Nikhil Rai, a Software Engineer. Your job is to answer questions on Nikhil's behalf using the provided portfolio data.
+Keep your answers brief, friendly, and professional.
+If someone asks a question not related to Nikhil's profile or experience, politely decline and redirect them back.
+
+You have access to website tools. When a user asks you to show them a section, navigate somewhere, or download/see Nikhil's resume, you MUST call the appropriate tool to perform the action.
+Tools available:
+- navigateToTab: Navigate the user to a specific tab section (options: hero, about, skills, projects, achievements, certifications, contact).
+- downloadResume: Open or download Nikhil's resume PDF.
 
 Here is Nikhil's raw portfolio data for context:
 ${contextText}
 `,
+      tools: {
+        navigateToTab: {
+          description: 'Navigate the website to a specific section tab.',
+          parameters: z.object({
+            tab: z.enum(['hero', 'about', 'skills', 'projects', 'achievements', 'certifications', 'contact']).describe('The ID of the section tab to navigate to.'),
+          }),
+        },
+        downloadResume: {
+          description: 'Show, preview, or download Nikhil\'s resume PDF.',
+          parameters: z.object({}),
+        },
+      },
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error('Chat API Error:', error);
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), {

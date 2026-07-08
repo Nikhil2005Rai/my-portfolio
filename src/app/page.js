@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import portfolioData from '@/data/portfolio.json';
 import Navbar from '@/components/Navbar';
@@ -18,6 +18,15 @@ export default function Home() {
   
   // Track active tab/section page
   const [activeTab, setActiveTab] = useState('hero');
+
+  useEffect(() => {
+    const handleNav = (e) => {
+      const targetTab = e.detail.tab;
+      setActiveTab(targetTab);
+    };
+    window.addEventListener('portfolio-navigate', handleNav);
+    return () => window.removeEventListener('portfolio-navigate', handleNav);
+  }, []);
 
   // Render components dynamically based on section IDs
   const renderSection = (sectionId) => {
