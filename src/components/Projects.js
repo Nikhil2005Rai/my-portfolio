@@ -64,6 +64,7 @@ export default function Projects({ projectsData }) {
           {projectsData.items.map((project, index) => (
             <motion.div
               key={index}
+              id={`project-${project.title.toLowerCase().replace(/\s+/g, '-')}`}
               custom={index}
               variants={cardVariants}
               initial="hidden"

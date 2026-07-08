@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Terminal, MapPin } from 'lucide-react';
+import { Menu, X, Terminal, MapPin, Search } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { SiCodechef } from 'react-icons/si';
 import styles from './Navbar.module.css';
@@ -56,6 +56,15 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
 
       {/* Navigation List */}
       <nav className={styles.navMenu}>
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent('command-palette-open'))}
+          className={styles.searchShortcutBtn}
+          title="Search (Ctrl + K)"
+        >
+          <Search size={14} className={styles.searchBtnIcon} />
+          <span className={styles.linkText}>Search</span>
+          <kbd className={styles.sidebarKbd}>⌘K</kbd>
+        </button>
         {navItems.map((item) => (
           <button
             key={item.id}
@@ -151,9 +160,18 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
         <div className={styles.mobileLogo} onClick={() => setActiveTab('hero')}>
           <span>{personalData.name}</span>
         </div>
-        <button className={styles.hamburger} onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className={styles.mobileControls}>
+          <button 
+            className={styles.mobileSearchBtn} 
+            onClick={() => window.dispatchEvent(new CustomEvent('command-palette-open'))}
+            title="Search"
+          >
+            <Search size={20} />
+          </button>
+          <button className={styles.hamburger} onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </header>
 
       {/* Mobile Sidebar Overlay Drawer */}
