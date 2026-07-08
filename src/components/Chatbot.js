@@ -12,7 +12,7 @@ export default function Chatbot() {
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, status, addToolOutput } = useChat({
     api: '/api/chat',
     initialMessages: [],
     maxSteps: 5,
@@ -20,11 +20,17 @@ export default function Chatbot() {
       if (toolCall.toolName === 'navigateToTab') {
         const targetTab = toolCall.args.tab;
         window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { tab: targetTab } }));
-        return `Successfully navigated to the ${targetTab} section.`;
+        addToolOutput({
+          toolCallId: toolCall.toolCallId,
+          output: `Successfully navigated to the ${targetTab} section.`,
+        });
       }
       if (toolCall.toolName === 'downloadResume') {
         window.open('/resume.pdf', '_blank', 'noopener,noreferrer');
-        return 'Successfully opened the resume preview in a new tab.';
+        addToolOutput({
+          toolCallId: toolCall.toolCallId,
+          output: 'Successfully opened the resume preview in a new tab.',
+        });
       }
     }
   });
@@ -118,7 +124,12 @@ export default function Chatbot() {
               </div>
 
               {/* Streaming Messages */}
-              {messages.map((msg, index) => (
+              {messages.filter(msg => {
+                if (msg.parts && msg.parts.length > 0) {
+                  return msg.parts.some(part => part.type !== 'tool-result');
+                }
+                return true;
+              }).map((msg, index) => (
                 <div 
                   key={msg.id || index} 
                   className={msg.role === 'user' ? styles.messageRowUser : styles.messageRowBot}
@@ -136,6 +147,22 @@ export default function Chatbot() {
                                 [Thinking: {part.reasoning}]
                               </span>
                             );
+                          }
+                          if (part.type === 'tool-call') {
+                            if (part.toolName === 'navigateToTab') {
+                              return (
+                                <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
+                                  $ nav --tab {part.args?.tab}
+                                </div>
+                              );
+                            }
+                            if (part.toolName === 'downloadResume') {
+                              return (
+                                <div key={pIdx} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
+                                  $ preview --resume
+                                </div>
+                              );
+                            }
                           }
                           return null;
                         })
