@@ -71,7 +71,7 @@
         "description": "Designed a modular event-driven task orchestration system capable of executing custom multi-step workflows. Implemented microservices-style backend modules with isolated execution contexts and optimized PostgreSQL queries using indexing.",
         "tech": ["Next.js", "TypeScript", "Prisma ORM", "PostgreSQL", "Sentry", "Docker"],
         "github": "https://github.com/Nikhil2005Rai/Nodebase",
-        "demo": "https://nodebase-demo.vercel.app",
+        "demo": "https://nodebase.nikhilrai.me",
         "highlights": [
           "Reduced manual workflow setup time by ~60%.",
           "Improved system reliability and fault tolerance with isolated backend contexts.",
@@ -85,7 +85,7 @@
         "description": "Architected a role-based access control (RBAC) system managing permissions across 5+ channel types. Built real-time messaging and threaded discussions using Convex event-driven architecture.",
         "tech": ["Next.js", "TypeScript", "Convex", "PostgreSQL", "REST APIs", "RBAC"],
         "github": "https://github.com/Nikhil2005Rai/WorkNet",
-        "demo": "https://worknet-demo.vercel.app",
+        "demo": "https://worknet-prod.vercel.app/",
         "highlights": [
           "Achieved sub-100ms message delivery latency with Convex.",
           "Designed 12+ RESTful backend APIs, cutting average database response time by ~35%.",
@@ -139,15 +139,18 @@
     "items": [
       {
         "name": "TechA Certified Java Developer",
-        "issuer": "TechA"
+        "issuer": "TechA",
+        "link": "https://www.dropbox.com/scl/fi/fy6174lf7nm1eif5wfx6r/TechA-Java-Certification.pdf?rlkey=ulzrdbuzazhr5kjzh1z9oep81&st=bugx8nds&dl=0"
       },
       {
         "name": "Java Fundamentals",
-        "issuer": "Oracle Academy"
+        "issuer": "Oracle Academy",
+        "link": "https://www.dropbox.com/scl/fi/0nztckqo6nc38pk6v2if0/Java_Fundamental_Oracle_Academy.pdf?rlkey=orr6hx9d7op5wckba0h2ubsh6&st=jtd0syju&dl=0"
       },
       {
         "name": "Introduction to Cybersecurity",
-        "issuer": "Cisco"
+        "issuer": "Cisco",
+        "link": "https://www.dropbox.com/scl/fi/6nmpi257ft6v31ykf8tjb/Introduction_to_Cybersecurity_certificate_cisco.pdf?rlkey=i97dntg6p07er1dxb49g46rci&st=rrev5xby&dl=0"
       }
     ]
   },
