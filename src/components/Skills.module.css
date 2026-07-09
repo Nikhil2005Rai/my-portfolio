@@ -9,6 +9,101 @@
   margin: 0 auto;
 }
 
+/* Radar Chart Layout */
+.radarWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  margin-bottom: 56px;
+  border-radius: 8px;
+}
+
+.radarLeft {
+  flex: 1;
+  max-width: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radarSvg {
+  overflow: visible;
+}
+
+.radarLabel {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.radarRight {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 180px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding-left: 40px;
+}
+
+.radarInfoCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--theme-color-dim, var(--fg-muted));
+  letter-spacing: 0.1em;
+}
+
+.infoTitle {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 8px 0 16px 0;
+  letter-spacing: -0.02em;
+}
+
+.infoBarContainer {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  max-width: 320px;
+}
+
+.infoBarFill {
+  height: 100%;
+  background-color: var(--accent, #ffffff);
+  border-radius: 3px;
+  box-shadow: 0 0 10px var(--accent-glow, rgba(255, 255, 255, 0.25));
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.infoPercentage {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent, #ffffff);
+  font-weight: 500;
+}
+
+.infoDesc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--fg-secondary);
+  margin-top: 16px;
+  max-width: 440px;
+}
+
+/* Detailed Grid Layout */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -20,6 +115,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  border-radius: 4px;
 }
 
 .categoryTitle {
@@ -43,7 +139,7 @@
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 8px 16px;
-  border-radius: 4px; /* Matches modern layout */
+  border-radius: 4px;
   cursor: default;
   transition: var(--transition-fast);
 }
@@ -55,8 +151,8 @@
 }
 
 .skillItem:hover {
-  background: #ffffff;
-  border-color: #ffffff;
+  background: var(--accent, #ffffff);
+  border-color: var(--accent, #ffffff);
 }
 
 .skillItem:hover .skillName {
@@ -66,5 +162,27 @@
 @media (max-width: 968px) {
   .section {
     padding: 80px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .radarWrapper {
+    flex-direction: column;
+    padding: 24px;
+    gap: 24px;
+  }
+  
+  .radarLeft {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .radarRight {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-left: 0;
+    padding-top: 24px;
+    min-height: auto;
   }
 }

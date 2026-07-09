@@ -23,6 +23,75 @@ export default function Home() {
   const [glitchActive, setGlitchActive] = useState(false);
   const [isDestructed, setIsDestructed] = useState(false);
   const [showTrollMessage, setShowTrollMessage] = useState(false);
+  
+  // Custom interactive easter eggs states
+  const [synthwaveActive, setSynthwaveActive] = useState(false);
+  const [isBooting, setIsBooting] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('has_booted') !== 'true';
+    }
+    return true;
+  });
+  const [bootStep, setBootStep] = useState(0);
+
+  const bootLogs = [
+    '[BOOT] Initialising NikhilRai OS v1.2.0...',
+    '[SYS] Syncing Next.js Turbopack cache directories... [OK]',
+    '[SYS] Connecting to Vercel global edge routers... [OK]',
+    '[SYS] Fetching LeetCode & GitHub stats queries... [OK]',
+    '[SYS] Injecting chatbot configurations for bot_nik... [OK]',
+    '[SYS] Welcome guest. Boot sequence complete.'
+  ];
+
+  // Run boot screen ticks
+  useEffect(() => {
+    if (!isBooting) return;
+
+    const timer = setInterval(() => {
+      setBootStep((prev) => {
+        if (prev >= bootLogs.length - 1) {
+          clearInterval(timer);
+          setTimeout(() => {
+            setIsBooting(false);
+            if (typeof window !== 'undefined') {
+              sessionStorage.setItem('has_booted', 'true');
+            }
+          }, 500);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 280);
+
+    return () => clearInterval(timer);
+  }, [isBooting]);
+
+  // Konami Code Sequence Listener
+  useEffect(() => {
+    const konamiSequence = [
+      'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+      'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+      'b', 'a'
+    ];
+    let pressedKeys = [];
+
+    const handleKeyDown = (e) => {
+      pressedKeys.push(e.key);
+      pressedKeys = pressedKeys.slice(-konamiSequence.length);
+
+      if (pressedKeys.join(',').toLowerCase() === konamiSequence.join(',').toLowerCase()) {
+        setSynthwaveActive(prev => !prev);
+        pressedKeys = []; // Reset sequence key history
+      }
+
+      if (e.key === 'Escape') {
+        setSynthwaveActive(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const handleNav = (e) => {
@@ -100,6 +169,50 @@ export default function Home() {
     exit: { opacity: 0, y: -10 }
   };
 
+  // 1. Render system boot screen loading logs
+  if (isBooting) {
+    return (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#000000',
+        color: '#39ff14', // Neon Green matrix accents
+        fontFamily: 'Courier New, monospace',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '24px',
+        zIndex: 999999
+      }}>
+        <div style={{ maxWidth: '520px', width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {bootLogs.slice(0, bootStep + 1).map((log, idx) => (
+            <div key={idx} style={{ fontSize: '0.88rem', lineHeight: '1.5', letterSpacing: '0.02em' }}>
+              {log}
+            </div>
+          ))}
+          <div style={{
+            width: '8px',
+            height: '14px',
+            backgroundColor: '#39ff14',
+            animation: 'blink 0.8s infinite',
+            marginTop: '8px'
+          }} />
+        </div>
+        <style jsx>{`
+          @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // 2. Render destroyed website view override
   if (isDestructed) {
     return (
       <div style={{
@@ -122,9 +235,9 @@ export default function Home() {
         <div style={{ maxWidth: '600px', width: '100%', border: '1px solid rgba(255, 51, 51, 0.3)', padding: '32px', borderRadius: '8px', backgroundColor: '#000000', boxShadow: '0 0 30px rgba(255, 51, 51, 0.15)' }}>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '24px', letterSpacing: '0.05em' }}>[ SYSTEM CRITICAL DESTRUCTION ]</h1>
           <p style={{ color: '#888888', lineHeight: '1.6', marginBottom: '12px' }}>guest@nikhilrai.me:~$ sudo rm -rf /</p>
-          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Purging database caches... [DELETED]</p>
-          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Purging layout assets... [DELETED]</p>
-          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Purging portfolio routing... [DELETED]</p>
+          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Deleting database caches... [DELETED]</p>
+          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Deleting layout assets... [DELETED]</p>
+          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Deleting portfolio routing... [DELETED]</p>
           <p style={{ color: '#888888', marginTop: '24px', marginBottom: '32px' }}>System offline. Port connections severed.</p>
           
           <button
@@ -161,7 +274,7 @@ export default function Home() {
 
   return (
     <div 
-      className={glitchActive ? 'website-critical-glitch' : ''} 
+      className={`${glitchActive ? 'website-critical-glitch' : ''} ${synthwaveActive ? 'synthwave-theme' : ''}`} 
       style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', transition: 'filter 0.3s ease' }}
     >
       {/* Troll Return Success Toast */}
@@ -204,6 +317,38 @@ export default function Home() {
             <p style={{ color: 'var(--fg-secondary)', fontSize: '0.78rem', marginTop: '12px', marginBottom: 0 }}>
               - bot_nik is fully active. Please behave! 🤖
             </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Pill for Unlocked Synthwave Mode */}
+      <AnimatePresence>
+        {synthwaveActive && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            style={{
+              position: 'fixed',
+              bottom: '24px',
+              right: '24px',
+              background: 'rgba(255, 0, 127, 0.95)',
+              color: '#ffffff',
+              padding: '12px 24px',
+              borderRadius: '99px',
+              boxShadow: '0 0 20px rgba(255, 0, 127, 0.6)',
+              fontFamily: 'Courier New, monospace',
+              fontSize: '0.8rem',
+              fontWeight: 'bold',
+              zIndex: 99999,
+              letterSpacing: '0.05em',
+              userSelect: 'none',
+              cursor: 'pointer'
+            }}
+            onClick={() => setSynthwaveActive(false)}
+            title="Click or press ESC to exit Synthwave mode"
+          >
+            ⚡ SYNTHWAVE UNLOCKED (ESC to exit)
           </motion.div>
         )}
       </AnimatePresence>

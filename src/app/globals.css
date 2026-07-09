@@ -267,3 +267,35 @@ a {
   80% { filter: hue-rotate(270deg) contrast(1.2); }
   100% { filter: hue-rotate(360deg) contrast(1); }
 }
+
+/* Synthwave Cyberpunk Theme Override */
+.synthwave-theme {
+  --bg-primary: #120136 !important; /* Deep neon indigo */
+  --bg-secondary: #03001e !important; /* Cyberpunk background */
+  --bg-tertiary: #200122 !important;
+  --fg-primary: #00f0ff !important; /* Hot Cyan */
+  --fg-secondary: #ff007f !important; /* Hot Pink */
+  --primary: #ff007f !important;
+  --accent: #00f0ff !important;
+  --border-color: rgba(255, 0, 127, 0.25) !important;
+  --border-color-hover: rgba(0, 240, 255, 0.5) !important;
+  --glass-bg: rgba(18, 1, 54, 0.6) !important;
+  --glass-border: rgba(255, 0, 127, 0.3) !important;
+  --accent-glow: rgba(0, 240, 255, 0.15) !important;
+  transition: all 0.5s ease-in-out;
+}
+
+.synthwave-theme::before {
+  content: " ";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(rgba(18, 150, 255, 0) 50%, rgba(255, 0, 127, 0.05) 50%),
+              linear-gradient(90deg, rgba(255, 0, 127, 0.05) 50%, rgba(18, 150, 255, 0) 50%);
+  background-size: 24px 24px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.7;
+}
