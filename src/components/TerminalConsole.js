@@ -225,6 +225,7 @@ export default function TerminalConsole() {
           window.dispatchEvent(new CustomEvent('website-self-destruct'));
           setIsOpen(false);
           setIsRebooting(false);
+          setHistory([]); // Flush history logs for a clean restart later
         }, 1000);
         break;
 

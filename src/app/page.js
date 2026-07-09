@@ -46,12 +46,17 @@ export default function Home() {
     return () => window.removeEventListener('website-self-destruct', handleSelfDestruct);
   }, []);
 
-  // Check if visitor has returned from being Rickrolled (Troll Callback)
+  // Check if visitor has returned from being Rickrolled (Troll Callback, supporting bfcache)
   useEffect(() => {
-    if (typeof window !== 'undefined' && localStorage.getItem('user_trolled') === 'true') {
-      setShowTrollMessage(true);
-      localStorage.removeItem('user_trolled');
-    }
+    const handleTrollCallback = () => {
+      if (typeof window !== 'undefined' && localStorage.getItem('user_trolled') === 'true') {
+        setShowTrollMessage(true);
+        localStorage.removeItem('user_trolled');
+      }
+    };
+    handleTrollCallback();
+    window.addEventListener('pageshow', handleTrollCallback);
+    return () => window.removeEventListener('pageshow', handleTrollCallback);
   }, []);
 
   // Scroll to top of the page when activeTab changes to prevent scrolling stickiness
@@ -62,6 +67,7 @@ export default function Home() {
   const handleRestore = () => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('user_trolled', 'true');
+      setIsDestructed(false); // Reset state before navigation so Back cache loads normal page
       window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
     }
   };
