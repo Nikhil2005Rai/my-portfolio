@@ -10,19 +10,27 @@ export default function Skills({ skillsData }) {
   // Keyboard navigation for radar chart using arrow keys
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      let key = e.key;
+      
+      // Normalize legacy/older browser key names
+      if (key === 'Up') key = 'ArrowUp';
+      if (key === 'Down') key = 'ArrowDown';
+      if (key === 'Left') key = 'ArrowLeft';
+      if (key === 'Right') key = 'ArrowRight';
+
+      if (key === 'ArrowRight' || key === 'ArrowDown') {
         e.preventDefault();
         setActiveCategory(prev => {
           if (prev === null) return 0;
           return (prev + 1) % 5;
         });
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
         e.preventDefault();
         setActiveCategory(prev => {
           if (prev === null) return 4;
           return (prev - 1 + 5) % 5;
         });
-      } else if (e.key === 'Escape') {
+      } else if (key === 'Escape') {
         setActiveCategory(null);
       }
     };

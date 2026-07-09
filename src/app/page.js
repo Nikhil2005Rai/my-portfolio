@@ -88,7 +88,13 @@ export default function Home() {
     let currentIndex = 0;
 
     const handleKeyDown = (e) => {
-      const key = e.key.toLowerCase();
+      let key = e.key.toLowerCase();
+      
+      // Normalize legacy/older browser key names
+      if (key === 'up') key = 'arrowup';
+      if (key === 'down') key = 'arrowdown';
+      if (key === 'left') key = 'arrowleft';
+      if (key === 'right') key = 'arrowright';
 
       // If the key matches the expected one in the sequence
       if (key === konamiSequence[currentIndex]) {
