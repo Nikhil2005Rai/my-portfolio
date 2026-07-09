@@ -17,13 +17,16 @@ export const metadata = {
   ],
   authors: [{ name: 'Nikhil Rai', url: 'https://github.com/Nikhil2005Rai' }],
   creator: 'Nikhil Rai',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body>
         {children}
