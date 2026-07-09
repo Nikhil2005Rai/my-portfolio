@@ -218,28 +218,14 @@ export default function TerminalConsole() {
       case 'sudo':
       case 'sudo rm -rf /':
         setIsRebooting(true);
-        setHistory(prev => [...prev, { text: '[CRITICAL] ROOT PRIVILEGES GRANTED TO GUEST USER.', type: 'error' }]);
+        setHistory(prev => [...prev, { text: '[CRITICAL WARNING] INITIATING DIRECTORY DESTRUCT BYPASS...', type: 'error' }]);
         
         setTimeout(() => {
-          setHistory(prev => [...prev, { text: 'Deleting directory /data/portfolio.json... [OK]', type: 'error' }]);
-        }, 600);
-        setTimeout(() => {
-          setHistory(prev => [...prev, { text: 'Deleting server modules /api/chat... [OK]', type: 'error' }]);
-        }, 1200);
-        setTimeout(() => {
-          setHistory(prev => [...prev, { text: 'SYSTEM ERROR: MEMORY CORRUPTED. REBOOTING SYSTEM CACHES...', type: 'error' }]);
-        }, 1800);
-        setTimeout(() => {
-          setHistory([
-            { text: 'NikhilRai OS v1.2.0 (Type "help" for options)', type: 'system' },
-            { text: 'Initialising terminal shell components... [OK]', type: 'system' },
-            { text: 'Loading live database caches... [OK]', type: 'system' },
-            { text: 'Active session: guest@nikhilrai.me', type: 'system' },
-            { text: '---', type: 'divider' },
-            { text: 'System diagnostics recovered cleanly. Welcome back.', type: 'system' }
-          ]);
+          // Trigger the global site shake & glitch effect
+          window.dispatchEvent(new CustomEvent('website-self-destruct'));
+          setIsOpen(false);
           setIsRebooting(false);
-        }, 3200);
+        }, 1000);
         break;
 
       case 'hack':

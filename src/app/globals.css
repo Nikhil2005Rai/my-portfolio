@@ -237,3 +237,33 @@ a {
     overflow-x: hidden;
   }
 }
+
+/* Critical Website Destruction Easter Egg Styles */
+.website-critical-glitch {
+  animation: website-shake 0.15s infinite, glitch-color-invert 0.25s infinite;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes website-shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-4px, 3px) rotate(-1deg); }
+  20% { transform: translate(3px, -4px) rotate(1.5deg); }
+  30% { transform: translate(-2px, 4px) rotate(-0.5deg); }
+  40% { transform: translate(4px, 2px) rotate(1deg); }
+  50% { transform: translate(-3px, -3px) rotate(-1.5deg); }
+  60% { transform: translate(3px, 4px) rotate(0.5deg); }
+  75% { transform: translate(-4px, 2px) rotate(1deg); }
+  90% { transform: translate(4px, -3px) rotate(-1.5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes glitch-color-invert {
+  0% { filter: hue-rotate(0deg) contrast(1); }
+  20% { filter: invert(0.8) contrast(1.5); }
+  40% { filter: hue-rotate(90deg) grayscale(0.5); }
+  60% { filter: invert(1) contrast(2) saturate(2); }
+  80% { filter: hue-rotate(270deg) contrast(1.2); }
+  100% { filter: hue-rotate(360deg) contrast(1); }
+}

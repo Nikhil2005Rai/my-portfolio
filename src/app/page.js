@@ -20,6 +20,9 @@ export default function Home() {
   
   // Track active tab/section page
   const [activeTab, setActiveTab] = useState('hero');
+  const [glitchActive, setGlitchActive] = useState(false);
+  const [isDestructed, setIsDestructed] = useState(false);
+  const [showTrollMessage, setShowTrollMessage] = useState(false);
 
   useEffect(() => {
     const handleNav = (e) => {
@@ -30,10 +33,38 @@ export default function Home() {
     return () => window.removeEventListener('portfolio-navigate', handleNav);
   }, []);
 
+  // Listen to critical website destruction trigger
+  useEffect(() => {
+    const handleSelfDestruct = () => {
+      setGlitchActive(true);
+      setTimeout(() => {
+        setIsDestructed(true);
+        setGlitchActive(false);
+      }, 2500);
+    };
+    window.addEventListener('website-self-destruct', handleSelfDestruct);
+    return () => window.removeEventListener('website-self-destruct', handleSelfDestruct);
+  }, []);
+
+  // Check if visitor has returned from being Rickrolled (Troll Callback)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('user_trolled') === 'true') {
+      setShowTrollMessage(true);
+      localStorage.removeItem('user_trolled');
+    }
+  }, []);
+
   // Scroll to top of the page when activeTab changes to prevent scrolling stickiness
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [activeTab]);
+
+  const handleRestore = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('user_trolled', 'true');
+      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    }
+  };
 
   // Render components dynamically based on section IDs
   const renderSection = (sectionId) => {
@@ -63,8 +94,114 @@ export default function Home() {
     exit: { opacity: 0, y: -10 }
   };
 
+  if (isDestructed) {
+    return (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#0c0c0c',
+        color: '#ff3333',
+        fontFamily: 'Courier New, monospace',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '24px',
+        zIndex: 99999,
+        userSelect: 'none'
+      }}>
+        <div style={{ maxWidth: '600px', width: '100%', border: '1px solid rgba(255, 51, 51, 0.3)', padding: '32px', borderRadius: '8px', backgroundColor: '#000000', boxShadow: '0 0 30px rgba(255, 51, 51, 0.15)' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '24px', letterSpacing: '0.05em' }}>[ SYSTEM CRITICAL DESTRUCTION ]</h1>
+          <p style={{ color: '#888888', lineHeight: '1.6', marginBottom: '12px' }}>guest@nikhilrai.me:~$ sudo rm -rf /</p>
+          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Purging database caches... [DELETED]</p>
+          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Purging layout assets... [DELETED]</p>
+          <p style={{ color: '#ff3333', lineHeight: '1.6', marginBottom: '8px' }}>- Purging portfolio routing... [DELETED]</p>
+          <p style={{ color: '#888888', marginTop: '24px', marginBottom: '32px' }}>System offline. Port connections severed.</p>
+          
+          <button
+            onClick={handleRestore}
+            style={{
+              background: 'none',
+              border: '2px solid #ff3333',
+              color: '#ff3333',
+              padding: '12px 24px',
+              fontFamily: 'inherit',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              fontSize: '0.9rem',
+              boxShadow: '0 0 10px rgba(255, 51, 51, 0.2)',
+              textTransform: 'uppercase',
+              borderRadius: '4px',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#ff3333';
+              e.currentTarget.style.color = '#000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = '#ff3333';
+            }}
+          >
+            [ Restore System Caches ]
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div 
+      className={glitchActive ? 'website-critical-glitch' : ''} 
+      style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', transition: 'filter 0.3s ease' }}
+    >
+      {/* Troll Return Success Toast */}
+      <AnimatePresence>
+        {showTrollMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -80, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -80, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: 'fixed',
+              top: '24px',
+              left: '50%',
+              x: '-50%',
+              zIndex: 10000,
+              background: 'rgba(12, 12, 12, 0.95)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              padding: '20px 28px',
+              borderRadius: '8px',
+              boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
+              maxWidth: '460px',
+              width: '90%',
+              fontFamily: 'Courier New, monospace',
+              backdropFilter: 'blur(12px)'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <span style={{ color: '#39ff14', fontWeight: 'bold', fontSize: '0.85rem' }}>[ SYSTEM RESTORED ]</span>
+              <button 
+                onClick={() => setShowTrollMessage(false)}
+                style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', fontSize: '0.9rem', padding: '4px' }}
+              >
+                ✕
+              </button>
+            </div>
+            <p style={{ color: '#ffffff', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+              Ah, back from the Rickroll? 😂 Did you really think you could delete my portfolio? Nice try!
+            </p>
+            <p style={{ color: 'var(--fg-secondary)', fontSize: '0.78rem', marginTop: '12px', marginBottom: 0 }}>
+              - nikhil_bot is fully active. Please behave! 🤖
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Navbar
         personalData={personal}
         sections={sections}
