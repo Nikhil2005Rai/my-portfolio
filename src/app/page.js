@@ -81,6 +81,16 @@ export default function Home() {
     let pressedKeys = [];
 
     const handleKeyDown = (e) => {
+      // Prevent browser scrolls only if the user is in the middle of typing the Konami Code
+      const isArrow = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key);
+      if (isArrow) {
+        const isKonamiStart = e.key === 'ArrowUp';
+        const isInMiddle = pressedKeys.length > 0 && pressedKeys[0] === 'ArrowUp';
+        if (isKonamiStart || isInMiddle) {
+          e.preventDefault();
+        }
+      }
+
       pressedKeys.push(e.key);
       pressedKeys = pressedKeys.slice(-konamiSequence.length);
 

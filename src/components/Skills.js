@@ -1,11 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Skills.module.css';
 
 export default function Skills({ skillsData }) {
   const [activeCategory, setActiveCategory] = useState(null);
+
+  // Keyboard navigation for radar chart using arrow keys
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveCategory(prev => {
+          if (prev === null) return 0;
+          return (prev + 1) % 5;
+        });
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveCategory(prev => {
+          if (prev === null) return 4;
+          return (prev - 1 + 5) % 5;
+        });
+      } else if (e.key === 'Escape') {
+        setActiveCategory(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Radar categories mapping and default static skill level scores (0 to 1)
   const radarCategories = [
