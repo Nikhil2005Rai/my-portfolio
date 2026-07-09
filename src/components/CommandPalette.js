@@ -27,6 +27,7 @@ export default function CommandPalette({ setActiveTab }) {
   const quickActions = [
     { id: 'action-resume', label: 'Preview Resume (PDF)', category: 'Quick Actions', icon: <FileText size={14} /> },
     { id: 'action-chat', label: 'Open AI Representative Chat', category: 'Quick Actions', icon: <MessageSquare size={14} /> },
+    { id: 'action-terminal', label: 'Open Interactive CLI Console (Terminal)', category: 'Quick Actions', icon: <Terminal size={14} />, tags: ['terminal', 'console', 'cli', 'matrix', 'shell'] },
   ];
 
   // Convert project database records to searchable items
@@ -147,6 +148,10 @@ export default function CommandPalette({ setActiveTab }) {
     } else if (item.id === 'action-chat') {
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('chatbot-toggle', { detail: { open: true } }));
+      }, 150);
+    } else if (item.id === 'action-terminal') {
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('terminal-toggle'));
       }, 150);
     }
 

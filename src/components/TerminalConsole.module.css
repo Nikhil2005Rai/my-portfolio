@@ -1,0 +1,225 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.consoleModal {
+  width: 100%;
+  max-width: 800px;
+  height: 80vh;
+  max-height: 580px;
+  background-color: #0c0c0c;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.matrixHide {
+  display: none !important;
+}
+
+/* Header */
+.header {
+  height: 38px;
+  background-color: #141414;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  user-select: none;
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--fg-secondary);
+}
+
+.terminalIcon {
+  color: #ffffff;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Screen */
+.screen {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  cursor: text;
+}
+
+/* Custom Scrollbar for Terminal Screen */
+.screen::-webkit-scrollbar {
+  width: 6px;
+}
+.screen::-webkit-scrollbar-track {
+  background: transparent;
+}
+.screen::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+.screen::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.logsArea {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.logText {
+  color: var(--fg-secondary);
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.systemText {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.inputText {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.outputHighlight {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.errorText {
+  color: #ff5555;
+  font-size: 0.9rem;
+}
+
+.divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+  margin: 8px 0;
+}
+
+/* Form and Field */
+.promptForm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.promptIndicator {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.inputField {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+  margin: 0;
+  caret-color: #ffffff;
+}
+
+/* Matrix Fullscreen Animation */
+.matrixContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  z-index: 2000;
+  overflow: hidden;
+}
+
+.matrixCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.matrixInstruction {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #00ff00;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.82rem;
+  text-shadow: 0 0 4px #00ff00;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .overlay {
+    padding: 12px;
+  }
+  .consoleModal {
+    height: 90vh;
+  }
+  .promptIndicator {
+    font-size: 0.82rem;
+  }
+  .inputField {
+    font-size: 0.82rem;
+  }
+  .logText, .systemText, .inputText, .errorText {
+    font-size: 0.82rem;
+  }
+}

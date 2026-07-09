@@ -13,6 +13,7 @@ import Certifications from '@/components/Certifications';
 import Contact from '@/components/Contact';
 import Chatbot from '@/components/Chatbot';
 import CommandPalette from '@/components/CommandPalette';
+import TerminalConsole from '@/components/TerminalConsole';
 
 export default function Home() {
   const { personal, sections, about, skills, projects, achievements, certifications, contact } = portfolioData;
@@ -92,6 +93,7 @@ export default function Home() {
 
       <Chatbot />
       <CommandPalette setActiveTab={setActiveTab} />
+      <TerminalConsole />
     </div>
   );
 }

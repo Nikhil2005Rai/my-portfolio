@@ -65,6 +65,15 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
           <span className={styles.linkText}>Search</span>
           <kbd className={styles.sidebarKbd}>⌘K</kbd>
         </button>
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent('terminal-toggle'))}
+          className={styles.searchShortcutBtn}
+          title="Terminal Console (Ctrl + `)"
+        >
+          <Terminal size={14} className={styles.searchBtnIcon} />
+          <span className={styles.linkText}>Console</span>
+          <kbd className={styles.sidebarKbd}>Ctrl+`</kbd>
+        </button>
         {navItems.map((item) => (
           <button
             key={item.id}
@@ -167,6 +176,13 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
             title="Search"
           >
             <Search size={20} />
+          </button>
+          <button 
+            className={styles.mobileSearchBtn} 
+            onClick={() => window.dispatchEvent(new CustomEvent('terminal-toggle'))}
+            title="Console"
+          >
+            <Terminal size={20} />
           </button>
           <button className={styles.hamburger} onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
