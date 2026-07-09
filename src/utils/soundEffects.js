@@ -43,7 +43,7 @@ class SoundEffects {
     });
   }
 
-  // 2. playPurr: Low frequency kitten purring (Neko Petting click)
+  // 2. playPurr: Synthesize a realistic low-frequency kitten purr vibration (Using LFO frequency modulation + Lowpass filter)
   playPurr() {
     this.init();
     if (!this.ctx) return;
@@ -54,26 +54,44 @@ class SoundEffects {
 
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
+    const lfo = this.ctx.createOscillator();
+    const lfoGain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
     const gain = this.ctx.createGain();
 
-    osc.type = 'triangle'; // Smooth triangle wave
-    osc.frequency.setValueAtTime(80, now);
-    
-    // Modulate frequency to create the vibration/purr rhythm
-    osc.frequency.linearRampToValueAtTime(95, now + 0.15);
-    osc.frequency.linearRampToValueAtTime(80, now + 0.3);
-    osc.frequency.linearRampToValueAtTime(95, now + 0.45);
-    osc.frequency.linearRampToValueAtTime(80, now + 0.6);
+    // Deep sine carrier wave for pure, buzz-free sub-bass rumble
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(55, now);
 
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.linearRampToValueAtTime(0.1, now + 0.5);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+    // LFO at 18Hz to create rapid pitch vibrations (the purring motor effect)
+    lfo.type = 'sine';
+    lfo.frequency.setValueAtTime(18, now);
+    lfoGain.gain.setValueAtTime(18, now); // Modulate carrier frequency between 37Hz and 73Hz
 
-    osc.connect(gain);
+    // Lowpass filter at 90Hz to completely cut out any high-frequency digital clicks/buzzes
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(90, now);
+
+    // Soft amplitude curve with gentle attack and decay
+    gain.gain.setValueAtTime(0.0, now);
+    gain.gain.linearRampToValueAtTime(0.5, now + 0.1); // Attack
+    gain.gain.linearRampToValueAtTime(0.4, now + 0.5);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 1.25); // 1.25s duration
+
+    // Connections
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+    osc.connect(filter);
+    filter.connect(gain);
     gain.connect(this.ctx.destination);
 
+    // Start
+    lfo.start(now);
     osc.start(now);
-    osc.stop(now + 0.61);
+
+    // Stop
+    lfo.stop(now + 1.3);
+    osc.stop(now + 1.3);
   }
 
   // 3. playGlitch: Synthesized white noise sweeps and pitch drops (Self-Destruct Sequence)
