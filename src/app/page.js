@@ -78,36 +78,39 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [isBooting]);
 
-  // Konami Code Sequence Listener
+  // Konami Code Sequence Listener (State-Machine based matching for 100% reliability)
   useEffect(() => {
     const konamiSequence = [
-      'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-      'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+      'arrowup', 'arrowup', 'arrowdown', 'arrowdown',
+      'arrowleft', 'arrowright', 'arrowleft', 'arrowright',
       'b', 'a'
     ];
-    let pressedKeys = [];
+    let currentIndex = 0;
 
     const handleKeyDown = (e) => {
-      // Prevent browser scrolls only if the user is in the middle of typing the Konami Code
-      const isArrow = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key);
-      if (isArrow) {
-        const isKonamiStart = e.key === 'ArrowUp';
-        const isInMiddle = pressedKeys.length > 0 && pressedKeys[0] === 'ArrowUp';
-        if (isKonamiStart || isInMiddle) {
+      const key = e.key.toLowerCase();
+
+      // If the key matches the expected one in the sequence
+      if (key === konamiSequence[currentIndex]) {
+        // Prevent default browser scrolling only for arrow keys in sequence context
+        if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
           e.preventDefault();
         }
-      }
 
-      pressedKeys.push(e.key);
-      pressedKeys = pressedKeys.slice(-konamiSequence.length);
+        currentIndex++;
 
-      if (pressedKeys.join(',').toLowerCase() === konamiSequence.join(',').toLowerCase()) {
-        setSynthwaveActive(prev => {
-          const next = !prev;
-          if (next) sounds.playSuccess();
-          return next;
-        });
-        pressedKeys = []; // Reset sequence key history
+        // If the entire cheat code has been entered
+        if (currentIndex === konamiSequence.length) {
+          setSynthwaveActive((prev) => {
+            const next = !prev;
+            if (next) sounds.playSuccess();
+            return next;
+          });
+          currentIndex = 0; // Reset index
+        }
+      } else {
+        // Reset index, but let ArrowUp re-start the sequence at index 1 so user has double entry leeway
+        currentIndex = key === 'arrowup' ? 1 : 0;
       }
 
       if (e.key === 'Escape') {
