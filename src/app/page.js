@@ -25,14 +25,18 @@ export default function Home() {
   const [showTrollMessage, setShowTrollMessage] = useState(false);
   
   // Custom interactive easter eggs states
+  const [mounted, setMounted] = useState(false);
   const [synthwaveActive, setSynthwaveActive] = useState(false);
-  const [isBooting, setIsBooting] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('has_booted') !== 'true';
-    }
-    return true;
-  });
+  const [isBooting, setIsBooting] = useState(false);
   const [bootStep, setBootStep] = useState(0);
+
+  // Set mounted state and check if boot loader is needed on client side
+  useEffect(() => {
+    setMounted(true);
+    if (typeof window !== 'undefined' && sessionStorage.getItem('has_booted') !== 'true') {
+      setIsBooting(true);
+    }
+  }, []);
 
   const bootLogs = [
     '[BOOT] Initialising NikhilRai OS v1.2.0...',
@@ -168,6 +172,21 @@ export default function Home() {
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -10 }
   };
+
+  // 0. Render empty black backdrop on first SSR/CSR load to prevent hydration mismatches
+  if (!mounted) {
+    return (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#000000',
+        zIndex: 999999
+      }} />
+    );
+  }
 
   // 1. Render system boot screen loading logs
   if (isBooting) {
