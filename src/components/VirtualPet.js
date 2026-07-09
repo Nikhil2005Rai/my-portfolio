@@ -6,12 +6,12 @@ import styles from './VirtualPet.module.css';
 export default function VirtualPet() {
   const [active, setActive] = useState(true);
   const [behavior, setBehavior] = useState('sleeping'); // 'sleeping' | 'sitting' | 'walking' | 'petting'
-  const [facingLeft, setFacingLeft] = useState(false);
   const [hearts, setHearts] = useState([]); // [{ id, x, y }]
 
   const petRef = useRef(null);
   const posRef = useRef({ x: 200, y: 200 });
   const targetRef = useRef({ x: 200, y: 200 });
+  const facingLeftRef = useRef(false);
   const idleTimerRef = useRef(0);
   const animationFrameRef = useRef(null);
 
@@ -33,6 +33,16 @@ export default function VirtualPet() {
     return () => window.removeEventListener('toggle-pet', handleToggle);
   }, []);
 
+  // Set initial position once on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const initX = window.innerWidth - 80;
+      const initY = window.innerHeight - 120;
+      posRef.current = { x: initX, y: initY };
+      targetRef.current = { x: initX, y: initY };
+    }
+  }, []);
+
   // Tracking cursor positions
   useEffect(() => {
     if (!active) return;
@@ -50,13 +60,6 @@ export default function VirtualPet() {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
       return;
     }
-
-    // Set initial position to bottom right
-    posRef.current = {
-      x: window.innerWidth - 80,
-      y: window.innerHeight - 120
-    };
-    targetRef.current = { ...posRef.current };
 
     const updatePhysics = () => {
       const pet = petRef.current;
@@ -82,8 +85,8 @@ export default function VirtualPet() {
         current.x += dx * lerpFactor;
         current.y += dy * lerpFactor;
 
-        // Apply flip direction
-        setFacingLeft(dx < 0);
+        // Apply flip direction and update ref directly (bypassing state renders)
+        facingLeftRef.current = dx < 0;
         setBehavior('walking');
         idleTimerRef.current = 0;
       } else {
@@ -98,8 +101,8 @@ export default function VirtualPet() {
         }
       }
 
-      // Directly update CSS transform matrix without React state updates for buttery smooth 60fps
-      pet.style.transform = `translate3d(${current.x - 20}px, ${current.y - 20}px, 0) scaleX(${facingLeft ? -1 : 1})`;
+      // Directly update CSS transform matrix for buttery smooth 60fps movement
+      pet.style.transform = `translate3d(${current.x - 20}px, ${current.y - 20}px, 0) scaleX(${facingLeftRef.current ? -1 : 1})`;
 
       animationFrameRef.current = requestAnimationFrame(updatePhysics);
     };
@@ -109,7 +112,7 @@ export default function VirtualPet() {
     return () => {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [active, facingLeft]);
+  }, [active]);
 
   const handlePetClick = (e) => {
     e.stopPropagation();
