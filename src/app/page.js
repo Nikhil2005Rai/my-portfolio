@@ -202,7 +202,7 @@ export default function Home() {
               Ah, back from the Rickroll? 😂 Did you really think you could delete my portfolio? Nice try!
             </p>
             <p style={{ color: 'var(--fg-secondary)', fontSize: '0.78rem', marginTop: '12px', marginBottom: 0 }}>
-              - nikhil_bot is fully active. Please behave! 🤖
+              - bot_nik is fully active. Please behave! 🤖
             </p>
           </motion.div>
         )}

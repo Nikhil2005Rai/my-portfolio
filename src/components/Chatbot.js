@@ -117,7 +117,7 @@ export default function Chatbot() {
               <div className={styles.headerInfo}>
                 <span className={styles.terminalIcon}>&gt;_</span>
                 <div>
-                  <h3 className={styles.headerTitle}>Nikhil&apos;s AI Representative</h3>
+                  <h3 className={styles.headerTitle}>bot_nik (AI Assistant)</h3>
                   <span className={styles.headerStatus}>online</span>
                 </div>
               </div>
@@ -130,9 +130,9 @@ export default function Chatbot() {
             <div className={styles.messagesArea}>
               {/* Initial Greeting */}
               <div className={styles.messageRowBot}>
-                <span className={styles.promptLabel}>nikhil_bot:~$</span>
+                <span className={styles.promptLabel}>bot_nik:~$</span>
                 <p className={styles.botText}>
-                  Hi, I&apos;m Nikhil Rai&apos;s AI representative. You can ask me anything about his technical stack, projects, education, or achievements. What would you like to know?
+                  Hi, I&apos;m Nikhil Rai&apos;s AI representative (bot_nik). You can ask me anything about his technical stack, projects, education, or achievements. What would you like to know?
                 </p>
               </div>
 
@@ -148,7 +148,7 @@ export default function Chatbot() {
                   className={msg.role === 'user' ? styles.messageRowUser : styles.messageRowBot}
                 >
                   <span className={msg.role === 'user' ? styles.promptLabelUser : styles.promptLabel}>
-                    {msg.role === 'user' ? 'user:~$ ' : 'nikhil_bot:~$ '}
+                    {msg.role === 'user' ? 'user:~$ ' : 'bot_nik:~$ '}
                   </span>
                   <div className={msg.role === 'user' ? styles.userText : styles.botText}>
                     {msg.parts && msg.parts.length > 0 
