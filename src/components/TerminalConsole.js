@@ -12,6 +12,10 @@ export default function TerminalConsole() {
   const [input, setInput] = useState('');
   const [matrixActive, setMatrixActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [consoleTheme, setConsoleTheme] = useState('classic');
+  const [isRebooting, setIsRebooting] = useState(false);
+  const [isHacking, setIsHacking] = useState(false);
+
   const inputRef = useRef(null);
   const consoleEndRef = useRef(null);
   const canvasRef = useRef(null);
@@ -37,14 +41,14 @@ export default function TerminalConsole() {
         { text: '---', type: 'divider' }
       ]);
     }
-  }, [isOpen]);
+  }, [isOpen, history]);
 
   // Handle auto-focus and auto-scroll
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isRebooting && !isHacking) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
-  }, [isOpen]);
+  }, [isOpen, isRebooting, isHacking]);
 
   useEffect(() => {
     consoleEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -65,7 +69,7 @@ export default function TerminalConsole() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  // Listen to global custom events (e.g. from navbar clicks)
+  // Listen to global custom events
   useEffect(() => {
     const handleToggle = () => {
       setIsOpen(prev => !prev);
@@ -120,7 +124,6 @@ export default function TerminalConsole() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Stop matrix after 5 seconds
     const timer = setTimeout(() => {
       setMatrixActive(false);
       setHistory(prev => [...prev, { text: 'Matrix mode terminated. Welcome back.', type: 'system' }]);
@@ -135,24 +138,36 @@ export default function TerminalConsole() {
 
   const executeCommand = (cmd) => {
     const rawCmd = cmd.trim();
-    const cleanCmd = rawCmd.toLowerCase();
-
-    if (!cleanCmd) return;
+    if (!rawCmd) return;
 
     // Add command to log history
     setHistory(prev => [...prev, { text: `guest@nikhilrai.me:~$ ${rawCmd}`, type: 'input' }]);
 
-    switch (cleanCmd) {
+    const tokens = rawCmd.split(/\s+/);
+    const command = tokens[0].toLowerCase();
+    const args = tokens.slice(1);
+
+    // Block commands if system is busy rebooting
+    if (isRebooting || isHacking) return;
+
+    switch (command) {
       case 'help':
         setHistory(prev => [
           ...prev,
           { text: 'Available commands:', type: 'output' },
-          { text: '  about    - Print personal biography & location info', type: 'output' },
-          { text: '  skills   - View core technical stack breakdown', type: 'output' },
-          { text: '  projects - List technical engineering projects', type: 'output' },
-          { text: '  matrix   - Enter the matrix (Easter Egg)', type: 'output' },
-          { text: '  clear    - Flush console outputs history', type: 'output' },
-          { text: '  exit     - Shutdown console session', type: 'output' }
+          { text: '  about        - Print personal biography & location info', type: 'output' },
+          { text: '  skills       - View core technical stack breakdown', type: 'output' },
+          { text: '  projects     - List technical engineering projects', type: 'output' },
+          { text: '  theme <color>- Accent themes (green, amber, classic)', type: 'output' },
+          { text: '  matrix       - Enter the matrix (Easter Egg)', type: 'output' },
+          { text: '  hack         - Execute mock terminal exploit sequence', type: 'output' },
+          { text: '  sudo         - Simulated system directories purge', type: 'output' },
+          { text: '  rickroll     - Launch auditory visual stream', type: 'output' },
+          { text: '  github       - Link to GitHub profile', type: 'output' },
+          { text: '  linkedin     - Link to LinkedIn profile', type: 'output' },
+          { text: '  leetcode     - Link to LeetCode profile', type: 'output' },
+          { text: '  clear        - Flush console outputs history', type: 'output' },
+          { text: '  exit         - Shutdown console session', type: 'output' }
         ]);
         break;
 
@@ -190,6 +205,93 @@ export default function TerminalConsole() {
         });
         break;
 
+      case 'theme':
+        const themeChoice = args[0]?.toLowerCase();
+        if (themeChoice === 'classic' || themeChoice === 'green' || themeChoice === 'amber') {
+          setConsoleTheme(themeChoice);
+          setHistory(prev => [...prev, { text: `Theme changed to: ${themeChoice} accent modes.`, type: 'system' }]);
+        } else {
+          setHistory(prev => [...prev, { text: 'Usage: theme <green | amber | classic>', type: 'error' }]);
+        }
+        break;
+
+      case 'sudo':
+      case 'sudo rm -rf /':
+        setIsRebooting(true);
+        setHistory(prev => [...prev, { text: '[CRITICAL] ROOT PRIVILEGES GRANTED TO GUEST USER.', type: 'error' }]);
+        
+        setTimeout(() => {
+          setHistory(prev => [...prev, { text: 'Deleting directory /data/portfolio.json... [OK]', type: 'error' }]);
+        }, 600);
+        setTimeout(() => {
+          setHistory(prev => [...prev, { text: 'Deleting server modules /api/chat... [OK]', type: 'error' }]);
+        }, 1200);
+        setTimeout(() => {
+          setHistory(prev => [...prev, { text: 'SYSTEM ERROR: MEMORY CORRUPTED. REBOOTING SYSTEM CACHES...', type: 'error' }]);
+        }, 1800);
+        setTimeout(() => {
+          setHistory([
+            { text: 'NikhilRai OS v1.2.0 (Type "help" for options)', type: 'system' },
+            { text: 'Initialising terminal shell components... [OK]', type: 'system' },
+            { text: 'Loading live database caches... [OK]', type: 'system' },
+            { text: 'Active session: guest@nikhilrai.me', type: 'system' },
+            { text: '---', type: 'divider' },
+            { text: 'System diagnostics recovered cleanly. Welcome back.', type: 'system' }
+          ]);
+          setIsRebooting(false);
+        }, 3200);
+        break;
+
+      case 'hack':
+        setIsHacking(true);
+        setHistory(prev => [...prev, { text: 'Launching secure decryption scripts...', type: 'system' }]);
+        
+        setTimeout(() => {
+          setHistory(prev => [...prev, { text: 'Overriding local port gateways ... [OK]', type: 'system' }]);
+        }, 600);
+        setTimeout(() => {
+          setHistory(prev => [...prev, { text: 'Decrypting credentials package database... [OK]', type: 'system' }]);
+        }, 1200);
+        setTimeout(() => {
+          setHistory(prev => [...prev, { text: 'Access granted. Fetching secret repository credentials...', type: 'output-highlight' }]);
+        }, 1800);
+        setTimeout(() => {
+          setHistory(prev => [
+            ...prev,
+            { text: '        /\\_/\\', type: 'output-highlight' },
+            { text: '       ( o.o )   "Access Granted. You are now a certified hacker."', type: 'output-highlight' },
+            { text: '        > ^ <', type: 'output-highlight' }
+          ]);
+          setIsHacking(false);
+        }, 2500);
+        break;
+
+      case 'rick':
+      case 'rickroll':
+        setHistory(prev => [
+          ...prev,
+          { text: "We're no strangers to love...", type: 'output-highlight' },
+          { text: "You know the rules and so do I...", type: 'output-highlight' },
+          { text: "Opening visual payload stream...", type: 'system' }
+        ]);
+        window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank', 'noopener,noreferrer');
+        break;
+
+      case 'github':
+        setHistory(prev => [...prev, { text: 'Opening GitHub profile: https://github.com/Nikhil2005Rai', type: 'system' }]);
+        window.open(portfolioData.personal.socials.github, '_blank', 'noopener,noreferrer');
+        break;
+
+      case 'linkedin':
+        setHistory(prev => [...prev, { text: 'Opening LinkedIn profile: https://linkedin.com/in/nikhil-rai-dev', type: 'system' }]);
+        window.open(portfolioData.personal.socials.linkedin, '_blank', 'noopener,noreferrer');
+        break;
+
+      case 'leetcode':
+        setHistory(prev => [...prev, { text: 'Opening LeetCode profile: https://leetcode.com/u/NikhilRai2005/', type: 'system' }]);
+        window.open(portfolioData.personal.socials.leetcode, '_blank', 'noopener,noreferrer');
+        break;
+
       case 'clear':
         setHistory([]);
         break;
@@ -212,8 +314,15 @@ export default function TerminalConsole() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isRebooting || isHacking) return;
     executeCommand(input);
     setInput('');
+  };
+
+  const getThemeClass = () => {
+    if (consoleTheme === 'amber') return styles.themeAmber;
+    if (consoleTheme === 'green') return styles.themeGreen;
+    return styles.themeClassic;
   };
 
   return (
@@ -226,7 +335,7 @@ export default function TerminalConsole() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className={`${styles.consoleModal} ${matrixActive ? styles.matrixHide : ''}`}
+              className={`${styles.consoleModal} ${getThemeClass()} ${matrixActive ? styles.matrixHide : ''}`}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
@@ -281,6 +390,7 @@ export default function TerminalConsole() {
                         ref={inputRef}
                         type="text"
                         value={input}
+                        disabled={isRebooting || isHacking}
                         onChange={(e) => setInput(e.target.value)}
                         className={styles.inputField}
                         autoComplete="off"

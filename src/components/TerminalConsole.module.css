@@ -21,11 +21,37 @@
   background-color: #0c0c0c;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--theme-glow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   font-family: 'Courier New', Courier, monospace;
+  transition: all 0.3s ease;
+}
+
+/* Accent Themes */
+.themeClassic {
+  --theme-color: #ffffff;
+  --theme-color-dim: var(--fg-secondary);
+  --theme-color-mute: var(--fg-muted);
+  --theme-glow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.themeGreen {
+  --theme-color: #39ff14; /* Neon Green */
+  --theme-color-dim: rgba(57, 255, 20, 0.85);
+  --theme-color-mute: rgba(57, 255, 20, 0.5);
+  --theme-glow: 0 0 25px rgba(57, 255, 20, 0.15);
+  border-color: rgba(57, 255, 20, 0.3);
+}
+
+.themeAmber {
+  --theme-color: #ffb000; /* Phosphor Amber */
+  --theme-color-dim: rgba(255, 176, 0, 0.85);
+  --theme-color-mute: rgba(255, 176, 0, 0.5);
+  --theme-glow: 0 0 25px rgba(255, 176, 0, 0.15);
+  border-color: rgba(255, 176, 0, 0.3);
 }
 
 .matrixHide {
@@ -49,17 +75,17 @@
   align-items: center;
   gap: 8px;
   font-size: 0.8rem;
-  color: var(--fg-secondary);
+  color: var(--theme-color-dim);
 }
 
 .terminalIcon {
-  color: #ffffff;
+  color: var(--theme-color);
 }
 
 .closeBtn {
   background: none;
   border: none;
-  color: var(--fg-muted);
+  color: var(--theme-color-mute);
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
@@ -70,7 +96,7 @@
 }
 
 .closeBtn:hover {
-  color: #ffffff;
+  color: var(--theme-color);
   background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -92,11 +118,12 @@
   background: transparent;
 }
 .screen::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--theme-color-mute);
   border-radius: 3px;
+  opacity: 0.5;
 }
 .screen::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--theme-color-dim);
 }
 
 .logsArea {
@@ -107,25 +134,25 @@
 }
 
 .logText {
-  color: var(--fg-secondary);
+  color: var(--theme-color-dim);
   font-size: 0.9rem;
   white-space: pre-wrap;
 }
 
 .systemText {
-  color: var(--fg-muted);
+  color: var(--theme-color-mute);
   font-size: 0.9rem;
   opacity: 0.85;
 }
 
 .inputText {
-  color: #ffffff;
+  color: var(--theme-color);
   font-weight: 700;
   font-size: 0.9rem;
 }
 
 .outputHighlight {
-  color: #ffffff;
+  color: var(--theme-color);
   font-weight: 700;
   font-size: 0.9rem;
 }
@@ -133,6 +160,7 @@
 .errorText {
   color: #ff5555;
   font-size: 0.9rem;
+  text-shadow: 0 0 2px rgba(255, 85, 85, 0.4);
 }
 
 .divider {
@@ -150,7 +178,7 @@
 }
 
 .promptIndicator {
-  color: #ffffff;
+  color: var(--theme-color);
   font-weight: 700;
   font-size: 0.9rem;
   white-space: nowrap;
@@ -161,12 +189,12 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #ffffff;
+  color: var(--theme-color);
   font-family: inherit;
   font-size: 0.9rem;
   padding: 0;
   margin: 0;
-  caret-color: #ffffff;
+  caret-color: var(--theme-color);
 }
 
 /* Matrix Fullscreen Animation */
@@ -201,6 +229,32 @@
   animation: pulse 2s infinite;
 }
 
+.mobileWarning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  padding: 40px 20px;
+}
+
+.warningTitle {
+  color: #ff5555;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 2px rgba(255, 85, 85, 0.4);
+}
+
+.warningDesc {
+  color: var(--theme-color-dim);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 460px;
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
@@ -222,29 +276,4 @@
   .logText, .systemText, .inputText, .errorText {
     font-size: 0.82rem;
   }
-}
-
-.mobileWarning {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 100%;
-  padding: 40px 20px;
-}
-
-.warningTitle {
-  color: #ff5555;
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 16px;
-  letter-spacing: 0.05em;
-}
-
-.warningDesc {
-  color: var(--fg-secondary);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  max-width: 460px;
 }
