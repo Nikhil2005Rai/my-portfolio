@@ -160,6 +160,7 @@ export default function TerminalConsole() {
           { text: '  projects     - List technical engineering projects', type: 'output' },
           { text: '  theme <color>- Accent themes (green, amber, classic)', type: 'output' },
           { text: '  matrix       - Enter the matrix (Easter Egg)', type: 'output' },
+          { text: '  neko <cmd>   - Toggle desktop companion (spawn | dismiss)', type: 'output' },
           { text: '  hack         - Execute mock terminal exploit sequence', type: 'output' },
           { text: '  sudo         - Simulated system directories purge', type: 'output' },
           { text: '  rickroll     - Launch auditory visual stream', type: 'output' },
@@ -282,6 +283,26 @@ export default function TerminalConsole() {
       case 'leetcode':
         setHistory(prev => [...prev, { text: 'Opening LeetCode profile: https://leetcode.com/u/NikhilRai2005/', type: 'system' }]);
         window.open(portfolioData.personal.socials.leetcode, '_blank', 'noopener,noreferrer');
+        break;
+
+      case 'neko':
+      case 'pet':
+        const subCommand = args[0]?.toLowerCase();
+        if (subCommand === 'spawn' || subCommand === 'show' || subCommand === 'on') {
+          window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
+          setHistory(prev => [...prev, { text: 'Virtual companion spawned. Say hello to Neko! 🐾', type: 'system' }]);
+        } else if (subCommand === 'dismiss' || subCommand === 'hide' || subCommand === 'off') {
+          window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: false } }));
+          setHistory(prev => [...prev, { text: 'Virtual companion dismissed. Goodbye Neko!', type: 'system' }]);
+        } else {
+          setHistory(prev => [
+            ...prev,
+            { text: 'Virtual Companion (Neko Cat) Manager', type: 'output-highlight' },
+            { text: 'Usage: neko <spawn | dismiss>', type: 'system' },
+            { text: '  spawn   - Turn Neko on', type: 'output' },
+            { text: '  dismiss - Hide Neko', type: 'output' }
+          ]);
+        }
         break;
 
       case 'clear':
