@@ -105,8 +105,8 @@
 /* 5. Floating Toggle Settings Button */
 .toggleBtn {
   position: fixed;
-  bottom: 24px;
-  left: 24px;
+  bottom: 41px;
+  right: 104px;
   width: 38px;
   height: 38px;
   border-radius: 50%;
