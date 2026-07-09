@@ -177,13 +177,6 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
           >
             <Search size={20} />
           </button>
-          <button 
-            className={styles.mobileSearchBtn} 
-            onClick={() => window.dispatchEvent(new CustomEvent('terminal-toggle'))}
-            title="Console"
-          >
-            <Terminal size={20} />
-          </button>
           <button className={styles.hamburger} onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

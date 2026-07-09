@@ -11,9 +11,20 @@ export default function TerminalConsole() {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState('');
   const [matrixActive, setMatrixActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const inputRef = useRef(null);
   const consoleEndRef = useRef(null);
   const canvasRef = useRef(null);
+
+  // Detect mobile viewports to adjust layout and keyboard input prompts
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Initialize terminal command welcome logs
   useEffect(() => {
@@ -230,41 +241,55 @@ export default function TerminalConsole() {
               </div>
 
               {/* Console Screen Body */}
-              <div className={styles.screen} onClick={() => inputRef.current?.focus()}>
-                <div className={styles.logsArea}>
-                  {history.map((log, index) => {
-                    if (log.type === 'divider') {
-                      return <div key={index} className={styles.divider} />;
-                    }
-                    let logClass = styles.logText;
-                    if (log.type === 'system') logClass = styles.systemText;
-                    if (log.type === 'input') logClass = styles.inputText;
-                    if (log.type === 'output-highlight') logClass = styles.outputHighlight;
-                    if (log.type === 'error') logClass = styles.errorText;
+              <div className={styles.screen} onClick={() => !isMobile && inputRef.current?.focus()}>
+                {isMobile ? (
+                  <div className={styles.mobileWarning}>
+                    <div className={styles.warningTitle}>[SYSTEM NOTIFICATION]</div>
+                    <div className={styles.warningDesc}>
+                      The Developer Console Terminal requires a physical keyboard and is optimized for desktop browsers.
+                    </div>
+                    <div className={styles.warningDesc} style={{ marginTop: '12px', color: 'var(--fg-muted)' }}>
+                      Please access this console from a computer or desktop layout to input CLI commands.
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className={styles.logsArea}>
+                      {history.map((log, index) => {
+                        if (log.type === 'divider') {
+                          return <div key={index} className={styles.divider} />;
+                        }
+                        let logClass = styles.logText;
+                        if (log.type === 'system') logClass = styles.systemText;
+                        if (log.type === 'input') logClass = styles.inputText;
+                        if (log.type === 'output-highlight') logClass = styles.outputHighlight;
+                        if (log.type === 'error') logClass = styles.errorText;
 
-                    return (
-                      <div key={index} className={logClass}>
-                        {log.text}
-                      </div>
-                    );
-                  })}
-                  <div ref={consoleEndRef} />
-                </div>
+                        return (
+                          <div key={index} className={logClass}>
+                            {log.text}
+                          </div>
+                        );
+                      })}
+                      <div ref={consoleEndRef} />
+                    </div>
 
-                {/* Input Prompt Form */}
-                <form onSubmit={handleSubmit} className={styles.promptForm}>
-                  <span className={styles.promptIndicator}>guest@nikhilrai.me:~$</span>
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    className={styles.inputField}
-                    autoComplete="off"
-                    autoCapitalize="none"
-                    spellCheck="false"
-                  />
-                </form>
+                    {/* Input Prompt Form */}
+                    <form onSubmit={handleSubmit} className={styles.promptForm}>
+                      <span className={styles.promptIndicator}>guest@nikhilrai.me:~$</span>
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        className={styles.inputField}
+                        autoComplete="off"
+                        autoCapitalize="none"
+                        spellCheck="false"
+                      />
+                    </form>
+                  </>
+                )}
               </div>
             </motion.div>
           </div>

@@ -223,3 +223,28 @@
     font-size: 0.82rem;
   }
 }
+
+.mobileWarning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  padding: 40px 20px;
+}
+
+.warningTitle {
+  color: #ff5555;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  letter-spacing: 0.05em;
+}
+
+.warningDesc {
+  color: var(--fg-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 460px;
+}
