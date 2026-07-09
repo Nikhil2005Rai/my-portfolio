@@ -259,9 +259,14 @@ export default function TerminalConsole() {
           ...prev,
           { text: "We're no strangers to love...", type: 'output-highlight' },
           { text: "You know the rules and so do I...", type: 'output-highlight' },
-          { text: "Opening visual payload stream...", type: 'system' }
+          { text: "Redirecting active page to visual stream...", type: 'system' }
         ]);
-        window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank', 'noopener,noreferrer');
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user_trolled', 'true');
+          setTimeout(() => {
+            window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+          }, 1200);
+        }
         break;
 
       case 'github':
