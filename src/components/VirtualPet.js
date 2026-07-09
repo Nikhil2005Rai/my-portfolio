@@ -5,7 +5,7 @@ import styles from './VirtualPet.module.css';
 
 export default function VirtualPet() {
   const [active, setActive] = useState(true);
-  const [behavior, setBehavior] = useState('sleeping'); // 'sleeping' | 'sitting' | 'walking' | 'petting'
+  const [behavior, setBehavior] = useState('sleeping'); // 'sleeping' | 'sitting' | 'walking' | 'petting' | 'playing'
   const [hearts, setHearts] = useState([]); // [{ id, x, y }]
 
   const petRef = useRef(null);
@@ -49,6 +49,7 @@ export default function VirtualPet() {
 
     const handleMouseMove = (e) => {
       targetRef.current = { x: e.clientX, y: e.clientY };
+      idleTimerRef.current = 0; // Reset idle timer on mouse move
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -69,35 +70,61 @@ export default function VirtualPet() {
       }
 
       const current = posRef.current;
-      const target = targetRef.current;
+      const target = { ...targetRef.current };
 
-      // Calculate distance to target (cursor)
+      // Increment the idle ticks counter
+      idleTimerRef.current += 1;
+
+      // If idle for > 6 seconds (360 frames), make Neko target the Chatbot button center
+      if (idleTimerRef.current > 360) {
+        const fab = document.getElementById('chatbot-fab');
+        if (fab) {
+          const rect = fab.getBoundingClientRect();
+          target.x = rect.left + rect.width / 2;
+          target.y = rect.top + rect.height / 2;
+        }
+      }
+
+      // Calculate distance to target coordinate
       const dx = target.x - current.x;
       const dy = target.y - current.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      // Speed configuration
-      const lerpFactor = 0.045; // Smooth slow catchup velocity
-      const catchupThreshold = 55; // Sit if close, chase if far
+      // Speed Lerp configuration
+      const lerpFactor = 0.045; 
+      const catchupThreshold = idleTimerRef.current > 360 ? 15 : 55; // Tighter bounds if sitting on a button
 
       if (distance > catchupThreshold) {
-        // Chase cursor
+        // Chase mouse / button target
         current.x += dx * lerpFactor;
         current.y += dy * lerpFactor;
 
-        // Apply flip direction and update ref directly (bypassing state renders)
+        // Apply flip direction
         facingLeftRef.current = dx < 0;
         setBehavior('walking');
-        idleTimerRef.current = 0;
       } else {
-        // Sitting/Idle or Sleeping state check
-        idleTimerRef.current += 1;
+        // Reached target coordinate!
+        if (idleTimerRef.current > 360) {
+          // If we reached the chatbot button during idle phase: play with it!
+          if (idleTimerRef.current > 460) {
+            setBehavior('sleeping'); // Curl up and sleep on the button
+          } else {
+            setBehavior('playing');
 
-        if (idleTimerRef.current > 240) {
-          // Sleep after ~4 seconds of idleness (60 frames/sec)
-          setBehavior('sleeping');
-        } else if (idleTimerRef.current > 40) {
-          setBehavior('sitting');
+            // Bat the chatbot button: trigger CSS wobble!
+            const fab = document.getElementById('chatbot-fab');
+            if (fab && !fab.classList.contains('chatbot-fab-wobble')) {
+              fab.classList.add('chatbot-fab-wobble');
+              setTimeout(() => fab.classList.remove('chatbot-fab-wobble'), 600);
+            }
+          }
+        } else {
+          // Normal idle at cursor position
+          if (idleTimerRef.current > 240) {
+            setBehavior('sleeping');
+          } else if (idleTimerRef.current > 40) {
+            setBehavior('sitting');
+          }
         }
       }
 
@@ -156,8 +183,8 @@ export default function VirtualPet() {
             <rect x="10" y="20" width="20" height="12" rx="4" fill="var(--accent, #ffffff)" className={styles.mainBody} />
             
             {/* Paws */}
-            <ellipse cx="14" cy="32" rx="3" ry="2" fill="var(--accent, #ffffff)" className={behavior === 'walking' ? styles.pawLeft : ''} />
-            <ellipse cx="26" cy="32" rx="3" ry="2" fill="var(--accent, #ffffff)" className={behavior === 'walking' ? styles.pawRight : ''} />
+            <ellipse cx="14" cy="32" rx="3" ry="2" fill="var(--accent, #ffffff)" className={behavior === 'walking' || behavior === 'playing' ? styles.pawLeft : ''} />
+            <ellipse cx="26" cy="32" rx="3" ry="2" fill="var(--accent, #ffffff)" className={behavior === 'walking' || behavior === 'playing' ? styles.pawRight : ''} />
 
             {/* Head */}
             <circle cx="20" cy="15" r="7" fill="var(--accent, #ffffff)" />
@@ -173,7 +200,7 @@ export default function VirtualPet() {
               strokeWidth="3" 
               fill="none" 
               strokeLinecap="round" 
-              className={behavior === 'sitting' ? styles.tailWag : ''} 
+              className={behavior === 'sitting' || behavior === 'playing' ? styles.tailWag : ''} 
             />
 
             {/* Facial Expressions based on behavior */}
@@ -185,7 +212,7 @@ export default function VirtualPet() {
                 {/* Nose */}
                 <circle cx="20" cy="18" r="0.8" fill="var(--bg-primary, #000000)" />
               </g>
-            ) : behavior === 'petting' ? (
+            ) : (behavior === 'petting' || behavior === 'playing') ? (
               // Happy closed curves eyes
               <g stroke="var(--bg-primary, #000000)" strokeWidth="1.2" fill="none" strokeLinecap="round">
                 <path d="M 15.5 16.5 Q 17 15.5 18.5 16.5" />

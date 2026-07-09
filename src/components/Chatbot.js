@@ -95,6 +95,7 @@ export default function Chatbot() {
     <div className={styles.chatbotWrapper}>
       {/* Floating Action Button */}
       <button 
+        id="chatbot-fab"
         className={`${styles.fab} ${isOpen ? styles.fabOpen : ''}`} 
         onClick={() => setIsOpen(!isOpen)}
         title="Chat with AI Assistant"
