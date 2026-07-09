@@ -42,23 +42,33 @@ export default function VirtualPet({ synthwaveActive = false }) {
     const handleNekoMode = (e) => {
       if (e.detail && e.detail.mode) {
         const mode = e.detail.mode;
-        setNekoMode(mode);
+        
+        setNekoMode((prevMode) => {
+          const isTogglingOff = prevMode === mode || mode === 'normal';
+          const nextMode = isTogglingOff ? 'normal' : mode;
 
-        if (mode === 'laser') {
-          sounds.playLaser();
-        }
-
-        if (mode === 'catnip') {
-          // Play playful/high-pitched sound effects
-          sounds.playLaser();
-          setTimeout(() => sounds.playLaser(), 150);
-          
-          // Reset catnip after 6 seconds
-          setTimeout(() => {
-            setNekoMode('normal');
+          if (isTogglingOff) {
             setDizzySymbols([]);
-          }, 6000);
-        }
+            return 'normal';
+          }
+
+          if (nextMode === 'laser') {
+            sounds.playLaser();
+          }
+
+          if (nextMode === 'catnip') {
+            sounds.playLaser();
+            setTimeout(() => sounds.playLaser(), 150);
+            
+            // Reset catnip after 6 seconds
+            setTimeout(() => {
+              setNekoMode(curr => curr === 'catnip' ? 'normal' : curr);
+              setDizzySymbols([]);
+            }, 6000);
+          }
+
+          return nextMode;
+        });
       }
     };
     window.addEventListener('neko-mode', handleNekoMode);

@@ -308,15 +308,41 @@ export default function TerminalConsole() {
         break;
 
       case 'laser':
-        window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
-        window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'laser' } }));
-        setHistory(prev => [...prev, { text: 'Laser Pointer activated! Watch Neko chase the red dot! 🔴', type: 'system' }]);
+        const laserArg = args[0]?.toLowerCase();
+        if (laserArg === 'off' || laserArg === 'hide' || laserArg === 'stop') {
+          window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'normal' } }));
+          setHistory(prev => [...prev, { text: 'Laser Pointer deactivated.', type: 'system' }]);
+        } else if (laserArg === 'on' || laserArg === 'start') {
+          window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
+          window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'laser' } }));
+          setHistory(prev => [...prev, { text: 'Laser Pointer activated! Watch Neko chase the red dot! 🔴', type: 'system' }]);
+        } else {
+          window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
+          window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'laser' } }));
+          setHistory(prev => [
+            ...prev,
+            { text: 'Laser Pointer toggled! (Usage: "laser off" to turn off, "laser on" to turn on) 🔴', type: 'system' }
+          ]);
+        }
         break;
 
       case 'catnip':
-        window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
-        window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'catnip' } }));
-        setHistory(prev => [...prev, { text: 'Neko was given catnip! It is going crazy! 🌀', type: 'system' }]);
+        const catnipArg = args[0]?.toLowerCase();
+        if (catnipArg === 'off' || catnipArg === 'stop') {
+          window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'normal' } }));
+          setHistory(prev => [...prev, { text: 'Catnip mode disabled.', type: 'system' }]);
+        } else if (catnipArg === 'on' || catnipArg === 'start') {
+          window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
+          window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'catnip' } }));
+          setHistory(prev => [...prev, { text: 'Neko was given catnip! It is going crazy! 🌀', type: 'system' }]);
+        } else {
+          window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
+          window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'catnip' } }));
+          setHistory(prev => [
+            ...prev,
+            { text: 'Catnip mode toggled! (Usage: "catnip off" to turn off, "catnip on" to turn on) 🌀', type: 'system' }
+          ]);
+        }
         break;
 
       case 'clear':
