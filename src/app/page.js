@@ -15,6 +15,7 @@ import Chatbot from '@/components/Chatbot';
 import CommandPalette from '@/components/CommandPalette';
 import TerminalConsole from '@/components/TerminalConsole';
 import VirtualPet from '@/components/VirtualPet';
+import { sounds } from '@/utils/soundEffects';
 
 export default function Home() {
   const { personal, sections, about, skills, projects, achievements, certifications, contact } = portfolioData;
@@ -95,7 +96,11 @@ export default function Home() {
       pressedKeys = pressedKeys.slice(-konamiSequence.length);
 
       if (pressedKeys.join(',').toLowerCase() === konamiSequence.join(',').toLowerCase()) {
-        setSynthwaveActive(prev => !prev);
+        setSynthwaveActive(prev => {
+          const next = !prev;
+          if (next) sounds.playSuccess();
+          return next;
+        });
         pressedKeys = []; // Reset sequence key history
       }
 
@@ -121,6 +126,7 @@ export default function Home() {
   useEffect(() => {
     const handleSelfDestruct = () => {
       setGlitchActive(true);
+      sounds.playGlitch();
       setTimeout(() => {
         setIsDestructed(true);
         setGlitchActive(false);
@@ -412,7 +418,7 @@ export default function Home() {
       <Chatbot />
       <CommandPalette setActiveTab={setActiveTab} />
       <TerminalConsole />
-      <VirtualPet />
+      <VirtualPet synthwaveActive={synthwaveActive} />
     </div>
   );
 }

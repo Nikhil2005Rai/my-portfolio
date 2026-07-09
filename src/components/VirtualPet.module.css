@@ -139,3 +139,43 @@
   }
 }
 
+/* 6. Glowing Red Laser Dot */
+.redDot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ff3b30;
+  box-shadow: 0 0 10px #ff3b30, 0 0 20px #ff3b30;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.04s linear;
+}
+
+/* 7. Catnip Dizzy spins */
+.dizzySpins {
+  animation: spinAround 0.6s infinite linear;
+}
+
+@keyframes spinAround {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 8. Dizzy symbol floating emoji particles */
+.dizzySymbol {
+  position: absolute;
+  font-size: 12px;
+  user-select: none;
+  pointer-events: none;
+  animation: dizzyFloat 1.2s infinite ease-in-out;
+}
+
+@keyframes dizzyFloat {
+  0%, 100% { transform: translateY(0) scale(0.8) rotate(-15deg); opacity: 0.5; }
+  50% { transform: translateY(-10px) scale(1.1) rotate(15deg); opacity: 1; }
+}
+
+

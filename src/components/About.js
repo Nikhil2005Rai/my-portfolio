@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { GraduationCap, Award, Calendar } from 'lucide-react';
 import styles from './About.module.css';
 import { useEffect, useState, useRef } from 'react';
+import LeetCodeChart from './LeetCodeChart';
 
 // A simple local Hook for counting up to a target number
 function Ticker({ value }) {
@@ -259,6 +260,7 @@ export default function About({ aboutData, personalData }) {
               </div>
             </div>
           </motion.div>
+          <LeetCodeChart />
         </div>
       </div>
     </section>

@@ -161,6 +161,8 @@ export default function TerminalConsole() {
           { text: '  theme <color>- Accent themes (green, amber, classic)', type: 'output' },
           { text: '  matrix       - Enter the matrix (Easter Egg)', type: 'output' },
           { text: '  neko <cmd>   - Toggle desktop companion (spawn | dismiss)', type: 'output' },
+          { text: '  laser        - Toggle laser pointer mode for Neko', type: 'output' },
+          { text: '  catnip       - Give Neko some catnip and watch it go dizzy', type: 'output' },
           { text: '  hack         - Execute mock terminal exploit sequence', type: 'output' },
           { text: '  sudo         - Simulated system directories purge', type: 'output' },
           { text: '  rickroll     - Launch auditory visual stream', type: 'output' },
@@ -303,6 +305,18 @@ export default function TerminalConsole() {
             { text: '  dismiss - Hide Neko', type: 'output' }
           ]);
         }
+        break;
+
+      case 'laser':
+        window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
+        window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'laser' } }));
+        setHistory(prev => [...prev, { text: 'Laser Pointer activated! Watch Neko chase the red dot! 🔴', type: 'system' }]);
+        break;
+
+      case 'catnip':
+        window.dispatchEvent(new CustomEvent('toggle-pet', { detail: { show: true } }));
+        window.dispatchEvent(new CustomEvent('neko-mode', { detail: { mode: 'catnip' } }));
+        setHistory(prev => [...prev, { text: 'Neko was given catnip! It is going crazy! 🌀', type: 'system' }]);
         break;
 
       case 'clear':

@@ -1,0 +1,222 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  padding: 40px;
+}
+
+.window {
+  width: 100%;
+  max-width: 1100px;
+  height: 80vh;
+  border-radius: 12px;
+  background: var(--glass-bg, rgba(12, 12, 12, 0.85));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fullscreen {
+  max-width: 100% !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+/* Browser Chrome Header */
+.header {
+  height: 52px;
+  background: rgba(20, 20, 20, 0.9);
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  user-select: none;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 120px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.close { background-color: #ff5f56; }
+.minimize { background-color: #ffbd2e; }
+.maximize { background-color: #27c93f; }
+
+.addressBar {
+  flex-grow: 1;
+  max-width: 600px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 8px;
+}
+
+.lockIcon {
+  font-size: 11px;
+}
+
+.urlInput {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  color: var(--fg-secondary, rgba(255, 255, 255, 0.6));
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  outline: none;
+  cursor: default;
+}
+
+.actionBtn {
+  background: transparent;
+  border: none;
+  color: var(--fg-secondary, rgba(255, 255, 255, 0.6));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--accent, #ffffff);
+}
+
+.spin {
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Actions Menu */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+  width: 120px;
+}
+
+.actionIconBtn {
+  background: transparent;
+  border: none;
+  color: var(--fg-secondary, rgba(255, 255, 255, 0.6));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.actionIconBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--accent, #ffffff);
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #ff5f56;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 95, 86, 0.1);
+}
+
+/* Viewport & Iframe */
+.viewport {
+  flex-grow: 1;
+  position: relative;
+  background: #111111;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #ffffff;
+}
+
+.loaderContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #111111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 10;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--accent, #ffffff);
+  animation: rotation 0.8s infinite linear;
+}
+
+.loaderText {
+  color: var(--fg-secondary, rgba(255, 255, 255, 0.6));
+  font-size: 0.9rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .overlay {
+    padding: 10px;
+  }
+  .window {
+    height: 90vh;
+  }
+  .dots {
+    display: none;
+  }
+}

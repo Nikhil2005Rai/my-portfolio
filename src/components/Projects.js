@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Check, Code } from 'lucide-react';
+import { ExternalLink, Check } from 'lucide-react';
+import ProjectPreviewModal from '@/components/ProjectPreviewModal';
 import styles from './Projects.module.css';
 
 // Inline Custom SVGs for Brands since modern Lucide React does not contain them
@@ -23,6 +25,9 @@ const GithubIcon = ({ size = 18, ...props }) => (
 );
 
 export default function Projects({ projectsData }) {
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewTitle, setPreviewTitle] = useState('');
+
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (index) => ({
@@ -89,15 +94,16 @@ export default function Projects({ projectsData }) {
                       <GithubIcon size={18} />
                     </a>
                     {project.demo && (
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        onClick={() => {
+                          setPreviewUrl(project.demo);
+                          setPreviewTitle(project.title);
+                        }}
                         className={styles.linkButton}
-                        title="Live Demo"
+                        title="Open Live Iframe Preview"
                       >
                         <ExternalLink size={18} />
-                      </a>
+                      </button>
                     )}
                   </div>
                 </div>
@@ -130,6 +136,14 @@ export default function Projects({ projectsData }) {
           ))}
         </div>
       </div>
+
+      {/* Embedded Live Web Previewer Frame Modal */}
+      <ProjectPreviewModal
+        isOpen={previewUrl !== null}
+        onClose={() => setPreviewUrl(null)}
+        projectUrl={previewUrl || ''}
+        projectTitle={previewTitle}
+      />
     </section>
   );
 }
