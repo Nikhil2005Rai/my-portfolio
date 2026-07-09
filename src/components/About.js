@@ -63,6 +63,41 @@ function Ticker({ value }) {
 }
 
 export default function About({ aboutData, personalData }) {
+  const [stats, setStats] = useState({
+    leetcodeRating: '2000+',
+    leetcodeSolved: '1000+',
+    cgpa: '9.02',
+    githubStars: '5',
+    githubFollowers: '10'
+  });
+
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setStats({
+            leetcodeRating: `${data.leetcode.rating}+`,
+            leetcodeSolved: `${data.leetcode.solved}+`,
+            cgpa: '9.02',
+            githubStars: `${data.github.stars}`,
+            githubFollowers: `${data.github.followers}`
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load live metrics, using cache fallbacks:', err);
+      });
+  }, []);
+
+  const statsList = [
+    { label: 'LeetCode Rating', value: stats.leetcodeRating },
+    { label: 'Problems Solved', value: stats.leetcodeSolved },
+    { label: 'B.Tech CGPA', value: stats.cgpa },
+    { label: 'GitHub Stars', value: stats.githubStars },
+    { label: 'GitHub Followers', value: stats.githubFollowers }
+  ];
+
   return (
     <section id="about" className={styles.section}>
       <div className={styles.container}>
@@ -83,7 +118,7 @@ export default function About({ aboutData, personalData }) {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="section-subtitle"
           >
-            A look into my background, academic credentials, and core performance stats.
+            A look into my background, academic credentials, and live engineering performance stats.
           </motion.p>
         </div>
 
@@ -143,7 +178,7 @@ export default function About({ aboutData, personalData }) {
 
         {/* Stats Grid */}
         <div className={styles.statsGrid}>
-          {aboutData.stats.map((stat, index) => (
+          {statsList.map((stat, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}

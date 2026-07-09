@@ -71,7 +71,7 @@
         "description": "Designed a modular event-driven task orchestration system capable of executing custom multi-step workflows. Implemented microservices-style backend modules with isolated execution contexts and optimized PostgreSQL queries using indexing.",
         "tech": ["Next.js", "TypeScript", "Prisma ORM", "PostgreSQL", "Sentry", "Docker"],
         "github": "https://github.com/Nikhil2005Rai/Nodebase",
-        "demo": "",
+        "demo": "https://nodebase-demo.vercel.app",
         "highlights": [
           "Reduced manual workflow setup time by ~60%.",
           "Improved system reliability and fault tolerance with isolated backend contexts.",
@@ -85,7 +85,7 @@
         "description": "Architected a role-based access control (RBAC) system managing permissions across 5+ channel types. Built real-time messaging and threaded discussions using Convex event-driven architecture.",
         "tech": ["Next.js", "TypeScript", "Convex", "PostgreSQL", "REST APIs", "RBAC"],
         "github": "https://github.com/Nikhil2005Rai/WorkNet",
-        "demo": "",
+        "demo": "https://worknet-demo.vercel.app",
         "highlights": [
           "Achieved sub-100ms message delivery latency with Convex.",
           "Designed 12+ RESTful backend APIs, cutting average database response time by ~35%.",
