@@ -114,59 +114,6 @@ export default function About({ aboutData, personalData }) {
   const mediumPct = ((stats.leetcodeMedium || 0) / totalSolved) * 100;
   const hardPct = ((stats.leetcodeHard || 0) / totalSolved) * 100;
 
-  // Generate mock contributions if real data hasn't loaded yet
-  const getDisplayContributions = () => {
-    if (stats.githubContributions && stats.githubContributions.length > 0) {
-      // Use the last 364 days to fit exactly 52 weeks
-      return stats.githubContributions.slice(-364);
-    }
-    // Fallback Mock data
-    const list = [];
-    const now = new Date();
-    for (let i = 363; i >= 0; i--) {
-      const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
-      const rand = Math.random();
-      let level = 'NONE';
-      if (rand > 0.9) level = 'FOURTH_QUARTILE';
-      else if (rand > 0.8) level = 'THIRD_QUARTILE';
-      else if (rand > 0.7) level = 'SECOND_QUARTILE';
-      else if (rand > 0.5) level = 'FIRST_QUARTILE';
-
-      list.push({
-        date: date.toISOString().split('T')[0],
-        contributionLevel: level,
-        contributionCount: level === 'NONE' ? 0 : Math.floor(Math.random() * 5) + 1
-      });
-    }
-    return list;
-  };
-
-  const chunkContributions = (arr) => {
-    const weeks = [];
-    let currentWeek = [];
-    arr.forEach((day, index) => {
-      currentWeek.push(day);
-      if (currentWeek.length === 7 || index === arr.length - 1) {
-        weeks.push(currentWeek);
-        currentWeek = [];
-      }
-    });
-    return weeks;
-  };
-
-  const contributionsList = getDisplayContributions();
-  const weeksGrid = chunkContributions(contributionsList);
-
-  const getLevelClass = (level) => {
-    switch (level) {
-      case 'FIRST_QUARTILE': return styles.levelFirst;
-      case 'SECOND_QUARTILE': return styles.levelSecond;
-      case 'THIRD_QUARTILE': return styles.levelThird;
-      case 'FOURTH_QUARTILE': return styles.levelFourth;
-      default: return styles.levelNone;
-    }
-  };
-
   return (
     <section id="about" className={styles.section}>
       <div className={styles.container}>
@@ -309,48 +256,6 @@ export default function About({ aboutData, personalData }) {
                   <span className={styles.diffName}>Hard</span>
                   <span className={styles.diffValue}>{stats.leetcodeHard}</span>
                 </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* GitHub Activity Heatmap */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className={`${styles.analyticsCard} glass-card`}
-          >
-            <div className={styles.heatmapHeader}>
-              <h3 className={styles.analyticsTitle} style={{ margin: 0 }}>GitHub Activity Calendar</h3>
-              <div className={styles.heatmapStats}>
-                Total Contributions: <span className={styles.heatmapCount}>{stats.githubTotalContributions || '500+'}</span>
-              </div>
-            </div>
-            <div className={styles.heatmapContainer}>
-              <div className={styles.heatmapGrid}>
-                {weeksGrid.map((week, wIndex) => (
-                  <div key={wIndex} className={styles.heatmapColumn}>
-                    {week.map((day, dIndex) => (
-                      <div
-                        key={dIndex}
-                        className={`${styles.heatmapCell} ${getLevelClass(day.contributionLevel)}`}
-                        title={`${day.date}: ${day.contributionCount} contributions`}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }}>
-              <div className={styles.heatmapLegend}>
-                <span>Less</span>
-                <div className={`${styles.heatmapCell} ${styles.levelNone}`} style={{ margin: 0 }} />
-                <div className={`${styles.heatmapCell} ${styles.levelFirst}`} style={{ margin: 0 }} />
-                <div className={`${styles.heatmapCell} ${styles.levelSecond}`} style={{ margin: 0 }} />
-                <div className={`${styles.heatmapCell} ${styles.levelThird}`} style={{ margin: 0 }} />
-                <div className={`${styles.heatmapCell} ${styles.levelFourth}`} style={{ margin: 0 }} />
-                <span>More</span>
               </div>
             </div>
           </motion.div>
