@@ -80,6 +80,14 @@ export default function ProjectPreviewModal({ isOpen, onClose, projectUrl, proje
           </div>
         </div>
 
+        {/* Sandbox Notice Banner */}
+        <div className={styles.sandboxNotice}>
+          💡 Browser security locks authentication (Google OAuth, Clerk, Auth0) inside iframes. If login fails, please{' '}
+          <a href={projectUrl} target="_blank" rel="noopener noreferrer" className={styles.noticeLink}>
+            Open in a New Tab ↗
+          </a>
+        </div>
+
         {/* Viewport/Iframe Area */}
         <div className={styles.viewport}>
           {loading && (
@@ -94,7 +102,7 @@ export default function ProjectPreviewModal({ isOpen, onClose, projectUrl, proje
             title={projectTitle}
             className={styles.iframe}
             onLoad={() => setLoading(false)}
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation-by-user-activation allow-storage-access-by-user-activation"
           />
         </div>
       </motion.div>

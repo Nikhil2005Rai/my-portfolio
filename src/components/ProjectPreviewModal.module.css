@@ -208,6 +208,29 @@
   font-family: 'Courier New', monospace;
 }
 
+/* Sandbox Notice Alert Banner */
+.sandboxNotice {
+  background: rgba(255, 189, 46, 0.08);
+  border-bottom: 1px solid rgba(255, 189, 46, 0.15);
+  color: #ffbd2e;
+  font-size: 0.72rem;
+  font-family: 'Courier New', monospace;
+  padding: 6px 16px;
+  text-align: center;
+  user-select: none;
+  line-height: 1.4;
+}
+
+.noticeLink {
+  color: var(--accent, #ffffff);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.noticeLink:hover {
+  color: #ffffff;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .overlay {
