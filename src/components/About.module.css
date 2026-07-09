@@ -165,3 +165,168 @@
     gap: 16px;
   }
 }
+
+.analyticsSection {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.analyticsCard {
+  padding: 32px;
+}
+
+.analyticsTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Difficulty Bar */
+.difficultyBarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.difficultyBar {
+  display: flex;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.barEasy {
+  background-color: #383838; /* Dark Grey */
+  transition: width 1s ease-out;
+}
+
+.barMedium {
+  background-color: #8c8c8c; /* Medium Grey */
+  transition: width 1s ease-out;
+}
+
+.barHard {
+  background-color: #ffffff; /* White Accent */
+  transition: width 1s ease-out;
+}
+
+.difficultyLabels {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.diffLabelItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dotEasy {
+  background-color: #383838;
+}
+
+.dotMedium {
+  background-color: #8c8c8c;
+}
+
+.dotHard {
+  background-color: #ffffff;
+}
+
+.diffName {
+  font-size: 0.9rem;
+  color: var(--fg-secondary);
+}
+
+.diffValue {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* GitHub Heatmap Grid */
+.heatmapContainer {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.heatmapGrid {
+  display: flex;
+  gap: 3px;
+  min-width: max-content;
+}
+
+.heatmapColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.heatmapCell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.04);
+  transition: background-color 0.2s ease;
+}
+
+/* Contribution Levels */
+.levelNone {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+.levelFirst {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+.levelSecond {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+.levelThird {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.levelFourth {
+  background-color: #ffffff;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+.heatmapHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.heatmapStats {
+  font-size: 0.9rem;
+  color: var(--fg-secondary);
+}
+
+.heatmapCount {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.heatmapLegend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+

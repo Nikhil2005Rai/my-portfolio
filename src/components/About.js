@@ -66,9 +66,14 @@ export default function About({ aboutData, personalData }) {
   const [stats, setStats] = useState({
     leetcodeRating: '2000+',
     leetcodeSolved: '1000+',
+    leetcodeEasy: 300,
+    leetcodeMedium: 500,
+    leetcodeHard: 200,
     cgpa: '9.02',
     githubStars: '5',
-    githubFollowers: '10'
+    githubFollowers: '10',
+    githubTotalContributions: 0,
+    githubContributions: []
   });
 
   useEffect(() => {
@@ -79,9 +84,14 @@ export default function About({ aboutData, personalData }) {
           setStats({
             leetcodeRating: `${data.leetcode.rating}+`,
             leetcodeSolved: `${data.leetcode.solved}+`,
+            leetcodeEasy: data.leetcode.easy,
+            leetcodeMedium: data.leetcode.medium,
+            leetcodeHard: data.leetcode.hard,
             cgpa: '9.02',
             githubStars: `${data.github.stars}`,
-            githubFollowers: `${data.github.followers}`
+            githubFollowers: `${data.github.followers}`,
+            githubTotalContributions: data.github.totalContributions,
+            githubContributions: data.github.contributions
           });
         }
       })
@@ -97,6 +107,65 @@ export default function About({ aboutData, personalData }) {
     { label: 'GitHub Stars', value: stats.githubStars },
     { label: 'GitHub Followers', value: stats.githubFollowers }
   ];
+
+  // Calculate percentages for difficulty distribution bar
+  const totalSolved = (stats.leetcodeEasy || 0) + (stats.leetcodeMedium || 0) + (stats.leetcodeHard || 0) || 1;
+  const easyPct = ((stats.leetcodeEasy || 0) / totalSolved) * 100;
+  const mediumPct = ((stats.leetcodeMedium || 0) / totalSolved) * 100;
+  const hardPct = ((stats.leetcodeHard || 0) / totalSolved) * 100;
+
+  // Generate mock contributions if real data hasn't loaded yet
+  const getDisplayContributions = () => {
+    if (stats.githubContributions && stats.githubContributions.length > 0) {
+      // Use the last 364 days to fit exactly 52 weeks
+      return stats.githubContributions.slice(-364);
+    }
+    // Fallback Mock data
+    const list = [];
+    const now = new Date();
+    for (let i = 363; i >= 0; i--) {
+      const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+      const rand = Math.random();
+      let level = 'NONE';
+      if (rand > 0.9) level = 'FOURTH_QUARTILE';
+      else if (rand > 0.8) level = 'THIRD_QUARTILE';
+      else if (rand > 0.7) level = 'SECOND_QUARTILE';
+      else if (rand > 0.5) level = 'FIRST_QUARTILE';
+
+      list.push({
+        date: date.toISOString().split('T')[0],
+        contributionLevel: level,
+        contributionCount: level === 'NONE' ? 0 : Math.floor(Math.random() * 5) + 1
+      });
+    }
+    return list;
+  };
+
+  const chunkContributions = (arr) => {
+    const weeks = [];
+    let currentWeek = [];
+    arr.forEach((day, index) => {
+      currentWeek.push(day);
+      if (currentWeek.length === 7 || index === arr.length - 1) {
+        weeks.push(currentWeek);
+        currentWeek = [];
+      }
+    });
+    return weeks;
+  };
+
+  const contributionsList = getDisplayContributions();
+  const weeksGrid = chunkContributions(contributionsList);
+
+  const getLevelClass = (level) => {
+    switch (level) {
+      case 'FIRST_QUARTILE': return styles.levelFirst;
+      case 'SECOND_QUARTILE': return styles.levelSecond;
+      case 'THIRD_QUARTILE': return styles.levelThird;
+      case 'FOURTH_QUARTILE': return styles.levelFourth;
+      default: return styles.levelNone;
+    }
+  };
 
   return (
     <section id="about" className={styles.section}>
@@ -193,6 +262,98 @@ export default function About({ aboutData, personalData }) {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Analytics Section */}
+        <div className={styles.analyticsSection}>
+          {/* LeetCode Difficulty Distribution */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className={`${styles.analyticsCard} glass-card`}
+          >
+            <h3 className={styles.analyticsTitle}>LeetCode Solve Breakdown</h3>
+            <div className={styles.difficultyBarContainer}>
+              <div className={styles.difficultyBar}>
+                <div 
+                  className={styles.barEasy} 
+                  style={{ width: `${easyPct}%` }} 
+                  title={`Easy: ${stats.leetcodeEasy} solved`} 
+                />
+                <div 
+                  className={styles.barMedium} 
+                  style={{ width: `${mediumPct}%` }} 
+                  title={`Medium: ${stats.leetcodeMedium} solved`} 
+                />
+                <div 
+                  className={styles.barHard} 
+                  style={{ width: `${hardPct}%` }} 
+                  title={`Hard: ${stats.leetcodeHard} solved`} 
+                />
+              </div>
+              <div className={styles.difficultyLabels}>
+                <div className={styles.diffLabelItem}>
+                  <span className={`${styles.dot} ${styles.dotEasy}`} />
+                  <span className={styles.diffName}>Easy</span>
+                  <span className={styles.diffValue}>{stats.leetcodeEasy}</span>
+                </div>
+                <div className={styles.diffLabelItem}>
+                  <span className={`${styles.dot} ${styles.dotMedium}`} />
+                  <span className={styles.diffName}>Medium</span>
+                  <span className={styles.diffValue}>{stats.leetcodeMedium}</span>
+                </div>
+                <div className={styles.diffLabelItem}>
+                  <span className={`${styles.dot} ${styles.dotHard}`} />
+                  <span className={styles.diffName}>Hard</span>
+                  <span className={styles.diffValue}>{stats.leetcodeHard}</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* GitHub Activity Heatmap */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className={`${styles.analyticsCard} glass-card`}
+          >
+            <div className={styles.heatmapHeader}>
+              <h3 className={styles.analyticsTitle} style={{ margin: 0 }}>GitHub Activity Calendar</h3>
+              <div className={styles.heatmapStats}>
+                Total Contributions: <span className={styles.heatmapCount}>{stats.githubTotalContributions || '500+'}</span>
+              </div>
+            </div>
+            <div className={styles.heatmapContainer}>
+              <div className={styles.heatmapGrid}>
+                {weeksGrid.map((week, wIndex) => (
+                  <div key={wIndex} className={styles.heatmapColumn}>
+                    {week.map((day, dIndex) => (
+                      <div
+                        key={dIndex}
+                        className={`${styles.heatmapCell} ${getLevelClass(day.contributionLevel)}`}
+                        title={`${day.date}: ${day.contributionCount} contributions`}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }}>
+              <div className={styles.heatmapLegend}>
+                <span>Less</span>
+                <div className={`${styles.heatmapCell} ${styles.levelNone}`} style={{ margin: 0 }} />
+                <div className={`${styles.heatmapCell} ${styles.levelFirst}`} style={{ margin: 0 }} />
+                <div className={`${styles.heatmapCell} ${styles.levelSecond}`} style={{ margin: 0 }} />
+                <div className={`${styles.heatmapCell} ${styles.levelThird}`} style={{ margin: 0 }} />
+                <div className={`${styles.heatmapCell} ${styles.levelFourth}`} style={{ margin: 0 }} />
+                <span>More</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -5,8 +5,8 @@ export async function GET() {
     const leetcodeUser = 'NikhilRai2005';
     const githubUser = 'Nikhil2005Rai';
 
-    // Fetch GitHub and LeetCode data in parallel with 24-hour cache revalidation (SWR)
-    const [githubProfileRes, githubReposRes, leetcodeSolvedRes, leetcodeRankRes] = await Promise.all([
+    // Fetch GitHub, LeetCode, and Contributions data in parallel with 24-hour cache revalidation (SWR)
+    const [githubProfileRes, githubReposRes, leetcodeSolvedRes, leetcodeRankRes, contributionsRes] = await Promise.all([
       // 1. GitHub Profile
       fetch(`https://api.github.com/users/${githubUser}`, {
         next: { revalidate: 86400 },
@@ -62,14 +62,21 @@ export async function GET() {
           variables: { username: leetcodeUser }
         }),
         next: { revalidate: 86400 }
-      }).catch(err => { console.error('LeetCode Rank Fetch Failed:', err); return null; })
+      }).catch(err => { console.error('LeetCode Rank Fetch Failed:', err); return null; }),
+
+      // 5. GitHub Contributions Calendar
+      fetch(`https://github-contributions-api.deno.dev/${githubUser}.json`, {
+        next: { revalidate: 86400 }
+      }).catch(err => { console.error('GitHub Contributions Fetch Failed:', err); return null; })
     ]);
 
     // Parse GitHub Stats
     let githubStats = {
       repos: 15,
       followers: 10,
-      stars: 5
+      stars: 5,
+      totalContributions: 0,
+      contributions: []
     };
 
     if (githubProfileRes && githubProfileRes.ok) {
@@ -85,9 +92,18 @@ export async function GET() {
       }
     }
 
+    if (contributionsRes && contributionsRes.ok) {
+      const data = await contributionsRes.json();
+      githubStats.totalContributions = data.totalContributions || 0;
+      githubStats.contributions = data.contributions || [];
+    }
+
     // Parse LeetCode Stats
     let leetcodeStats = {
       solved: 1000,
+      easy: 300,
+      medium: 500,
+      hard: 200,
       rating: 2000,
       globalRank: 15000,
       topPercentage: 5
@@ -98,7 +114,13 @@ export async function GET() {
       const acStats = result?.data?.matchedUser?.submitStats?.acSubmissionNum;
       if (acStats && Array.isArray(acStats)) {
         const totalSolved = acStats.find(item => item.difficulty === 'All')?.count;
+        const easySolved = acStats.find(item => item.difficulty === 'Easy')?.count;
+        const mediumSolved = acStats.find(item => item.difficulty === 'Medium')?.count;
+        const hardSolved = acStats.find(item => item.difficulty === 'Hard')?.count;
         if (totalSolved) leetcodeStats.solved = totalSolved;
+        if (easySolved) leetcodeStats.easy = easySolved;
+        if (mediumSolved) leetcodeStats.medium = mediumSolved;
+        if (hardSolved) leetcodeStats.hard = hardSolved;
       }
     }
 
