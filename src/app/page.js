@@ -35,8 +35,14 @@ export default function Home() {
   // Set mounted state and check if boot loader is needed on client side
   useEffect(() => {
     setMounted(true);
-    if (typeof window !== 'undefined' && sessionStorage.getItem('has_booted') !== 'true') {
-      setIsBooting(true);
+    if (typeof window !== 'undefined') {
+      const isMobileScreen = window.innerWidth < 768;
+      if (isMobileScreen) {
+        sessionStorage.setItem('has_booted', 'true');
+        setIsBooting(false);
+      } else if (sessionStorage.getItem('has_booted') !== 'true') {
+        setIsBooting(true);
+      }
     }
   }, []);
 

@@ -279,3 +279,9 @@
   color: #ffffff;
 }
 
+@media (max-width: 768px) {
+  .consoleBtn {
+    display: none !important;
+  }
+}
+

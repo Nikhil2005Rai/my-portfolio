@@ -67,7 +67,7 @@ export default function Navbar({ personalData, sections, activeTab, setActiveTab
         </button>
         <button
           onClick={() => window.dispatchEvent(new CustomEvent('terminal-toggle'))}
-          className={styles.searchShortcutBtn}
+          className={`${styles.searchShortcutBtn} ${styles.consoleBtn}`}
           title="Terminal Console (Ctrl + `)"
         >
           <Terminal size={14} className={styles.searchBtnIcon} />

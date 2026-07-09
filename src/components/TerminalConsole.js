@@ -378,6 +378,8 @@ export default function TerminalConsole() {
     return styles.themeClassic;
   };
 
+  if (isMobile) return null;
+
   return (
     <>
       <AnimatePresence>
