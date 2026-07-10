@@ -24,7 +24,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('hero');
   const [glitchActive, setGlitchActive] = useState(false);
   const [isDestructed, setIsDestructed] = useState(false);
-  const [showTrollMessage, setShowTrollMessage] = useState(false);
+  const [trollType, setTrollType] = useState(null);
   
   // Custom interactive easter eggs states
   const [mounted, setMounted] = useState(false);
@@ -154,9 +154,13 @@ export default function Home() {
   // Check if visitor has returned from being Rickrolled (Troll Callback, supporting bfcache)
   useEffect(() => {
     const handleTrollCallback = () => {
-      if (typeof window !== 'undefined' && localStorage.getItem('user_trolled') === 'true') {
-        setShowTrollMessage(true);
-        localStorage.removeItem('user_trolled');
+      if (typeof window !== 'undefined') {
+        const trolled = localStorage.getItem('user_trolled');
+        if (trolled) {
+          const type = trolled === 'true' ? 'destruct' : trolled;
+          setTrollType(type);
+          localStorage.removeItem('user_trolled');
+        }
       }
     };
     handleTrollCallback();
@@ -171,7 +175,7 @@ export default function Home() {
 
   const handleRestore = () => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('user_trolled', 'true');
+      localStorage.setItem('user_trolled', 'destruct');
       setIsDestructed(false); // Reset state before navigation so Back cache loads normal page
       window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
     }
@@ -330,7 +334,7 @@ export default function Home() {
     >
       {/* Troll Return Success Toast */}
       <AnimatePresence>
-        {showTrollMessage && (
+        {trollType !== null && (
           <motion.div
             initial={{ opacity: 0, y: -80, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -354,16 +358,20 @@ export default function Home() {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-              <span style={{ color: '#39ff14', fontWeight: 'bold', fontSize: '0.85rem' }}>[ SYSTEM RESTORED ]</span>
+              <span style={{ color: trollType === 'destruct' ? '#39ff14' : '#ff007f', fontWeight: 'bold', fontSize: '0.85rem' }}>
+                {trollType === 'destruct' ? '[ SYSTEM RESTORED ]' : '[ TROLL SYSTEM TRIGGERED ]'}
+              </span>
               <button 
-                onClick={() => setShowTrollMessage(false)}
+                onClick={() => setTrollType(null)}
                 style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', fontSize: '0.9rem', padding: '4px' }}
               >
                 ✕
               </button>
             </div>
             <p style={{ color: '#ffffff', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
-              Ah, back from the Rickroll? 😂 Did you really think you could delete my portfolio? Nice try!
+              {trollType === 'destruct'
+                ? 'Ah, back from the Rickroll? 😂 Did you really think you could delete my portfolio? Nice try! 😉'
+                : 'Got you! Never gonna give you up... 🎵 Hope you enjoyed the music! 😉'}
             </p>
             <p style={{ color: 'var(--fg-secondary)', fontSize: '0.78rem', marginTop: '12px', marginBottom: 0 }}>
               - bot_nik is fully active. Please behave! 🤖

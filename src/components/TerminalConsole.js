@@ -265,7 +265,7 @@ export default function TerminalConsole() {
           { text: "Redirecting active page to visual stream...", type: 'system' }
         ]);
         if (typeof window !== 'undefined') {
-          localStorage.setItem('user_trolled', 'true');
+          localStorage.setItem('user_trolled', 'rickroll');
           setTimeout(() => {
             window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
           }, 1200);
