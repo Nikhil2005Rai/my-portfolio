@@ -360,9 +360,3 @@
   color: #ffffff;
 }
 
-@media (max-width: 768px) {
-  .chatbotWrapper {
-    display: none !important;
-  }
-}
-
