@@ -2,8 +2,8 @@
   "personal": {
     "name": "Nikhil Rai",
     "title": "Software Engineer & Competitive Programmer",
-    "subtitle": "Building event-driven architectures, scalable backend systems, and modern web products.",
-    "bio": "CSE undergraduate with a 9.02 CGPA and a passion for building robust software applications. Active competitive programmer with a 2000+ rating on LeetCode (top 5% globally) and experience in REST APIs, event-driven architectures, and microservices.",
+    "subtitle": "Building AI Agents, Event-Driven Systems & Scalable Backend Infrastructure.",
+    "bio": "Final-year Computer Science undergraduate with a 9.12 CGPA, specializing in scalable backend systems, AI agents, and event-driven architectures. Experienced in building multi-agent AI applications, Graph RAG pipelines, microservices, and modern full-stack web products.",
     "email": "n2005rai@gmail.com",
     "location": "New Delhi, India",
     "socials": {
@@ -29,12 +29,21 @@
       "institution": "Noida Institute of Engineering and Technology",
       "degree": "Bachelor of Technology in Computer Science and Engineering",
       "period": "2023 - 2027",
-      "cgpa": "9.02 / 10.0"
+      "cgpa": "9.12 / 10.0"
     },
     "stats": [
-      { "label": "LeetCode Rating", "value": "2000+" },
-      { "label": "B.Tech CGPA", "value": "9.02" },
-      { "label": "Problems Solved", "value": "1000+" }
+      {
+        "label": "LeetCode Rating",
+        "value": "2000+"
+      },
+      {
+        "label": "B.Tech CGPA",
+        "value": "9.12"
+      },
+      {
+        "label": "Problems Solved",
+        "value": "1000+"
+      }
     ]
   },
   "skills": {
@@ -42,23 +51,77 @@
     "categories": [
       {
         "name": "Languages",
-        "items": ["C", "C++", "Java", "TypeScript", "JavaScript", "Python"]
+        "items": [
+          "C",
+          "C++",
+          "Java",
+          "Python",
+          "TypeScript",
+          "JavaScript"
+        ]
+      },
+      {
+        "name": "AI & GenAI",
+        "items": [
+          "LangGraph",
+          "LangChain",
+          "RAG",
+          "Graph RAG",
+          "Multi-Agent Systems",
+          "Knowledge Graphs",
+          "LLMs",
+          "Prompt Engineering",
+          "Vector Search (pgvector)",
+          "LangSmith"
+        ]
       },
       {
         "name": "Frontend",
-        "items": ["React", "Next.js", "Tailwind CSS", "Redux", "Zustand"]
+        "items": [
+          "React",
+          "Next.js",
+          "Tailwind CSS",
+          "Redux",
+          "Zustand"
+        ]
       },
       {
         "name": "Backend",
-        "items": ["Node.js", "Express.js", "MongoDB", "Prisma", "PostgreSQL", "Convex"]
+        "items": [
+          "Node.js",
+          "Express.js",
+          "FastAPI",
+          "PostgreSQL",
+          "MongoDB",
+          "Prisma",
+          "Redis",
+          "Convex",
+          "REST APIs"
+        ]
       },
       {
         "name": "DevOps & Cloud",
-        "items": ["Docker", "AWS", "Git", "GitHub", "Linux", "Postman", "Cloudflare Workers"]
+        "items": [
+          "Docker",
+          "AWS",
+          "Cloudflare Workers",
+          "Git",
+          "GitHub",
+          "Linux",
+          "Postman"
+        ]
       },
       {
         "name": "Core CS",
-        "items": ["Data Structures", "Algorithms", "Operating Systems", "DBMS", "OOP", "System Design", "Microservices"]
+        "items": [
+          "Data Structures",
+          "Algorithms",
+          "Operating Systems",
+          "DBMS",
+          "OOP",
+          "System Design",
+          "Microservices"
+        ]
       }
     ]
   },
@@ -66,31 +129,71 @@
     "title": "Projects",
     "items": [
       {
+        "title": "Archimedes",
+        "subtitle": "Multi-Agent AI Workflow Platform",
+        "description": "Developed an autonomous multi-agent platform using LangGraph for intelligent task orchestration, Graph RAG for multi-hop reasoning, and Redis-backed caching for low-latency AI workflows.",
+        "tech": [
+          "FastAPI",
+          "Python",
+          "Next.js",
+          "TypeScript",
+          "LangGraph",
+          "LangChain",
+          "PostgreSQL",
+          "pgvector",
+          "Upstash Redis",
+          "Docker"
+        ],
+        "github": "https://github.com/Nikhil2005Rai/Archimedes",
+        "demo": "https://api.archimedes.nikhilrai.me",
+        "highlights": [
+          "Developed Planner, Knowledge, Coding, and Web Research AI agents using LangGraph.",
+          "Integrated Graph RAG with pgvector for efficient multi-hop retrieval.",
+          "Reduced inference latency through Upstash Redis caching.",
+          "Implemented secure Fernet encryption key rotation.",
+          "Built a scalable architecture for AI-assisted coding, research, and workflow execution."
+        ]
+      },
+      {
         "title": "Nodebase",
         "subtitle": "Event-Driven Workflow Automation Platform",
-        "description": "Designed a modular event-driven task orchestration system capable of executing custom multi-step workflows. Implemented microservices-style backend modules with isolated execution contexts and optimized PostgreSQL queries using indexing.",
-        "tech": ["Next.js", "TypeScript", "Prisma ORM", "PostgreSQL", "Sentry", "Docker"],
+        "description": "Designed a modular event-driven workflow automation platform supporting AI, API, database, and custom workflow nodes with production-grade monitoring and optimized database performance.",
+        "tech": [
+          "Next.js",
+          "TypeScript",
+          "Prisma ORM",
+          "PostgreSQL",
+          "Sentry",
+          "Docker"
+        ],
         "github": "https://github.com/Nikhil2005Rai/Nodebase",
         "demo": "https://nodebase.nikhilrai.me",
         "highlights": [
-          "Reduced manual workflow setup time by ~60%.",
-          "Improved system reliability and fault tolerance with isolated backend contexts.",
-          "Reduced p95 query latency by ~40% using database indexing.",
-          "Integrated Sentry for real-time error tracking, reducing Mean Time to Detection (MTTD) by ~50%."
+          "Built an event-driven workflow engine supporting AI and API automation.",
+          "Designed modular execution pipelines for complex multi-step workflows.",
+          "Optimized PostgreSQL performance using indexing and query tuning.",
+          "Integrated Sentry for production monitoring and real-time error tracking."
         ]
       },
       {
         "title": "WorkNet",
         "subtitle": "Real-Time Team Communication Platform",
-        "description": "Architected a role-based access control (RBAC) system managing permissions across 5+ channel types. Built real-time messaging and threaded discussions using Convex event-driven architecture.",
-        "tech": ["Next.js", "TypeScript", "Convex", "PostgreSQL", "REST APIs", "RBAC"],
+        "description": "Architected a scalable collaboration platform with role-based access control, multi-workspace support, and real-time messaging powered by Convex.",
+        "tech": [
+          "Next.js",
+          "TypeScript",
+          "Convex",
+          "PostgreSQL",
+          "REST APIs",
+          "RBAC"
+        ],
         "github": "https://github.com/Nikhil2005Rai/WorkNet",
         "demo": "https://worknet-prod.vercel.app/",
         "highlights": [
-          "Achieved sub-100ms message delivery latency with Convex.",
-          "Designed 12+ RESTful backend APIs, cutting average database response time by ~35%.",
-          "Modeled normalized schemas to support multi-workspace, multi-channel communication at scale.",
-          "Reduced unauthorized access incidents to zero in test scenarios."
+          "Built a real-time messaging platform with multi-workspace support.",
+          "Designed a robust RBAC system across multiple channel types.",
+          "Implemented optimized REST APIs for faster backend responses.",
+          "Created normalized PostgreSQL schemas for scalable collaboration."
         ]
       }
     ]
@@ -114,12 +217,12 @@
     "items": [
       {
         "title": "LeetCode 2000+ Rating",
-        "description": "Solved 1000+ algorithmic problems across platforms, ranking in the top 5% globally.",
+        "description": "Solved 1000+ algorithmic problems across multiple platforms, ranking in the top 5% globally.",
         "link": "https://leetcode.com/u/NikhilRai2005/"
       },
       {
         "title": "CodeChef 3-Star",
-        "description": "Rated competitive programmer.",
+        "description": "Rated competitive programmer with consistent contest performance.",
         "link": "https://www.codechef.com/users/nikhilrai2005"
       },
       {
@@ -130,6 +233,11 @@
       {
         "title": "NIET WebWeave Hackathon",
         "description": "Won 2nd Prize for designing a modern responsive application under time constraints.",
+        "link": ""
+      },
+      {
+        "title": "AI Systems Engineering",
+        "description": "Built production-ready multi-agent AI systems using LangGraph, Graph RAG, pgvector, FastAPI, and Redis.",
         "link": ""
       }
     ]
@@ -156,7 +264,7 @@
   },
   "contact": {
     "title": "Get in Touch",
-    "message": "I'm always open to discussing full-stack roles, competitive programming collaborations, or backend architecture design. Drop me a line!",
+    "message": "I'm always open to discussing software engineering, backend architecture, AI engineering, competitive programming, or exciting startup opportunities. Feel free to reach out!",
     "web3forms_key": "YOUR_WEB3FORMS_ACCESS_KEY_HERE"
   }
 }
