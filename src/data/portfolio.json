@@ -145,7 +145,7 @@
           "Docker"
         ],
         "github": "https://github.com/Nikhil2005Rai/Archimedes",
-        "demo": "https://api.archimedes.nikhilrai.me",
+        "demo": "https://archimedes.nikhilrai.me",
         "highlights": [
           "Developed Planner, Knowledge, Coding, and Web Research AI agents using LangGraph.",
           "Integrated Graph RAG with pgvector for efficient multi-hop retrieval.",
