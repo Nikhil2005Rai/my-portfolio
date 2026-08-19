@@ -197,7 +197,7 @@
         ]
       },
       {
-      "title": "Eightfold Candidate Transformer",
+      "title": "Multi-Source Candidate Data Reconciliation Engine",
       "subtitle": "Multi-Source Candidate Data Reconciliation Engine",
       "description": "Built a deterministic ETL pipeline that reconciles messy candidate data from recruiter CSVs and the live GitHub REST API into a single trustworthy profile per person, with full provenance tracking and a runtime-configurable projection layer for output shaping.",
       "tech": [
