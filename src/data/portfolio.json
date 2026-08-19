@@ -195,7 +195,30 @@
           "Implemented optimized REST APIs for faster backend responses.",
           "Created normalized PostgreSQL schemas for scalable collaboration."
         ]
-      }
+      },
+      {
+      "title": "Eightfold Candidate Transformer",
+      "subtitle": "Multi-Source Candidate Data Reconciliation Engine",
+      "description": "Built a deterministic ETL pipeline that reconciles messy candidate data from recruiter CSVs and the live GitHub REST API into a single trustworthy profile per person, with full provenance tracking and a runtime-configurable projection layer for output shaping.",
+      "tech": [
+        "Python",
+        "Pydantic",
+        "GitHub REST API",
+        "phonenumbers",
+        "pycountry",
+        "unittest"
+      ],
+      "github": "https://github.com/Nikhil2005Rai/eightfold-candidate-transformer",
+      "demo": "",
+      "highlights": [
+        "Designed a five-stage pipeline (Parse → Normalize → Identity Resolve → Merge → Project) with an internal CanonicalProfile as the single source of truth.",
+        "Implemented rule-based confidence scoring with source weights, corroboration bonuses, and conflict penalties instead of relying on black-box ML heuristics.",
+        "Built a deterministic identity resolver using explicit ID mapping and normalized-email fallback, deliberately avoiding fuzzy name matching to prevent false merges.",
+        "Added a runtime-configurable Projector supporting field selection, renaming, canonical path extraction (e.g. skills[].name), and E.164/skill normalization.",
+        "Integrated live GitHub API lookups alongside fixture-based sources, with graceful diagnostics for rate limits and malformed records instead of hard failures.",
+        "Achieved full field-level provenance and diagnostics output, validated against a Pydantic schema before being returned to callers."
+      ]
+    }
     ]
   },
   "achievements": {
