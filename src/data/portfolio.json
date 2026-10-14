@@ -17,6 +17,7 @@
   "sections": [
     { "id": "hero", "enabled": true },
     { "id": "about", "enabled": true },
+    { "id": "experience", "enabled": true },
     { "id": "projects", "enabled": true },
     { "id": "skills", "enabled": true },
     { "id": "achievements", "enabled": true },
@@ -43,6 +44,22 @@
       {
         "label": "Problems Solved",
         "value": "1000+"
+      }
+    ]
+  },
+  "experience": {
+    "title": "Experience",
+    "items": [
+      {
+        "company": "Recruit CRM",
+        "role": "Software Engineer Intern",
+        "period": "Oct 2026 - Present",
+        "description": "Building AI-powered features for an applicant tracking system (ATS) used in recruiting and hiring workflows.",
+        "highlights": [
+          "Building AI-powered features for Recruit CRM's applicant tracking system, contributing to production code used in recruiting and hiring workflows.",
+          "Integrating LLM-based capabilities into ATS workflows over candidate and job data, applying prompt engineering and structured outputs to keep AI results reliable.",
+          "Working within an established production codebase through code reviews and team-based, iterative delivery."
+        ]
       }
     ]
   },

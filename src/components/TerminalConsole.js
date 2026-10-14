@@ -156,6 +156,7 @@ export default function TerminalConsole() {
           ...prev,
           { text: 'Available commands:', type: 'output' },
           { text: '  about        - Print personal biography & location info', type: 'output' },
+          { text: '  experience   - List professional experience', type: 'output' },
           { text: '  skills       - View core technical stack breakdown', type: 'output' },
           { text: '  projects     - List technical engineering projects', type: 'output' },
           { text: '  theme <color>- Accent themes (green, amber, classic)', type: 'output' },
@@ -183,6 +184,18 @@ export default function TerminalConsole() {
           { text: `Bio: ${portfolioData.personal.bio}`, type: 'output' },
           { text: `Email: ${portfolioData.personal.email}`, type: 'output' }
         ]);
+        break;
+
+      case 'experience':
+        setHistory(prev => [...prev, { text: '--- Professional Experience ---', type: 'output' }]);
+        portfolioData.experience.items.forEach(item => {
+          setHistory(prev => [
+            ...prev,
+            { text: `* ${item.role} @ ${item.company}`, type: 'output-highlight' },
+            { text: `  Period: ${item.period}`, type: 'output' },
+            { text: `  ${item.description}`, type: 'output' }
+          ]);
+        });
         break;
 
       case 'skills':

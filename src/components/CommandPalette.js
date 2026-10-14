@@ -17,6 +17,7 @@ export default function CommandPalette({ setActiveTab }) {
   const navigationItems = [
     { id: 'hero', label: 'Navigate to Home', category: 'Navigation', icon: <Terminal size={14} /> },
     { id: 'about', label: 'Navigate to About', category: 'Navigation', icon: <Terminal size={14} /> },
+    { id: 'experience', label: 'Navigate to Experience', category: 'Navigation', icon: <Terminal size={14} /> },
     { id: 'skills', label: 'Navigate to Skills', category: 'Navigation', icon: <Terminal size={14} /> },
     { id: 'projects', label: 'Navigate to Projects', category: 'Navigation', icon: <Terminal size={14} /> },
     { id: 'achievements', label: 'Navigate to Achievements', category: 'Navigation', icon: <Terminal size={14} /> },

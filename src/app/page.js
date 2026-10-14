@@ -6,6 +6,7 @@ import portfolioData from '@/data/portfolio.json';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
+import Experience from '@/components/Experience';
 import Projects from '@/components/Projects';
 import Skills from '@/components/Skills';
 import Achievements from '@/components/Achievements';
@@ -18,7 +19,7 @@ import VirtualPet from '@/components/VirtualPet';
 import { sounds } from '@/utils/soundEffects';
 
 export default function Home() {
-  const { personal, sections, about, skills, projects, achievements, certifications, contact } = portfolioData;
+  const { personal, sections, about, experience, skills, projects, achievements, certifications, contact } = portfolioData;
   
   // Track active tab/section page
   const [activeTab, setActiveTab] = useState('hero');
@@ -188,6 +189,8 @@ export default function Home() {
         return <Hero key="hero" personalData={personal} setActiveTab={setActiveTab} />;
       case 'about':
         return <About key="about" aboutData={about} personalData={personal} />;
+      case 'experience':
+        return <Experience key="experience" experienceData={experience} />;
       case 'projects':
         return <Projects key="projects" projectsData={projects} />;
       case 'skills':
